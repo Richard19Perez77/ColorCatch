@@ -2,6 +2,8 @@
 
 A touch and move game where you match colors to score points, the square should touch other squares that are the same color as the border.
 
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime layout, GC risks, known bugs, and improvement order.
+
 
 
 https://github.com/Richard19Perez77/ColorCatch/assets/58344001/f183f553-c7ee-471a-8881-c184d7a20992
