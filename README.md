@@ -1,14 +1,10 @@
-﻿# ColorCatch
+# ColorCatch
 
-A touch and move game where you match colors to score points, the square should touch other squares that are the same color as the border.
+A touch-and-move game: match colors to score. Drag a square so it touches others that share the same color as the border.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime layout, GC risks, known bugs, and improvement order.
 
-
-
 https://github.com/Richard19Perez77/ColorCatch/assets/58344001/f183f553-c7ee-471a-8881-c184d7a20992
-
-
 
 ![Screenshot_20230813_225644](https://github.com/Richard19Perez77/ColorCatch/assets/58344001/f6422b9d-7e91-4af6-b35e-aabf2c343967)
 
