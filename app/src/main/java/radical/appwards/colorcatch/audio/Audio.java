@@ -37,7 +37,6 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     public int stoppedAt;
     private boolean musicOn = true, soundOn = true, musicResumed;
     private Uri path;
-    public int level;
     private boolean resuming;
 
     /**
@@ -114,19 +113,23 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     }
 
     /**
+     * Track 2 starts when entering level {@code LEVELS / 2} (5 of 10) and stays
+     * for the rest of the run. Resume/continue must use the same cutoff as
+     * {@link #playTrack2}; {@code <=} sent level 5 back to track 1.
+     */
+    private int gameTrackRes() {
+        if (GameVariables.getInstance().getCurrLevel() >= GameVariables.LEVELS / 2)
+            return R.raw.track2;
+        return R.raw.track1;
+    }
+
+    /**
      * When the app is resumed the radical.appwards.colorcatch.level is used to tell what track to start and
      * the soundStopped at should be set from the radical.appwards.colorcatch.database.
      */
     private void resumeMusic(Context context) {
-
-        level = GameVariables.getInstance().level;
-
-        if (level <= GameVariables.LEVELS / 2)
-            path = Uri.parse("android.resource://radical.appwards.colorcatch/"
-                    + R.raw.track1);
-        else
-            path = Uri.parse("android.resource://radical.appwards.colorcatch/"
-                    + R.raw.track2);
+        path = Uri.parse("android.resource://radical.appwards.colorcatch/"
+                + gameTrackRes());
 
         try {
             mp.reset();
@@ -161,9 +164,8 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     public void playGame(Context context) {
         if (!musicResumed) {
             try {
-                path = Uri
-                        .parse("android.resource://radical.appwards.colorcatch/"
-                                + R.raw.track1);
+                path = Uri.parse("android.resource://radical.appwards.colorcatch/"
+                        + gameTrackRes());
                 mp.reset();
                 mp.setDataSource(context, path);
                 mp.setOnPreparedListener(this);
