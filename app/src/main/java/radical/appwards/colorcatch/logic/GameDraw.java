@@ -70,7 +70,7 @@ public class GameDraw {
 	public void drawPlayerShields(Canvas canvas) {
 		for (int i = 0; i < gv.getPlayerShieldsLen(); i++) {
 			if (gv.getPlayerShields(i).getExists()) {
-				gv.getPlayerShields(i).update(canvas, gv.getPlayerLeft(),
+				gv.getPlayerShields(i).draw(canvas, gv.getPlayerLeft(),
 						gv.getPlayerTop(), gv.getPlayerRight(),
 						gv.getPlayerBottom(), gv.player.getPaint());
 			}
@@ -80,7 +80,7 @@ public class GameDraw {
 	public void drawEnemyShields(Canvas canvas) {
 		for (int i = 0; i < gv.enemyShields.length; i++) {
 			if (gv.getEnemyShields(i).getExists()) {
-				gv.getEnemyShields(i).update(canvas);
+				gv.getEnemyShields(i).draw(canvas);
 			}
 		}
 	}

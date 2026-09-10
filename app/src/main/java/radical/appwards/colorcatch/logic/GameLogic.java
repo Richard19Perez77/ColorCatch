@@ -429,6 +429,7 @@ public class GameLogic {
 	}
 
 	public void updatePhysics(Context context) {
+		advanceShields();
 		calculatePlayerLocation();
 		moveEnemies();
 		updateEnemies();
@@ -436,6 +437,7 @@ public class GameLogic {
 	}
 
 	public void updatePhysics7(Context context) {
+		advanceShields();
 		calculatePlayerLocation();
 		moveEnemies();
 		updateEnemies7();
@@ -444,6 +446,7 @@ public class GameLogic {
 
 	public void updatePhysics8(Context context) {
 		// physics update for radical.appwards.colorcatch.level 8
+		advanceShields();
 		calculatePlayerLocation();
 		moveEnemies();
 		updateEnemies8();
@@ -452,6 +455,7 @@ public class GameLogic {
 
 	public void updatePhysics9(Context context) {
 		// physics update for radical.appwards.colorcatch.level 9
+		advanceShields();
 		calculatePlayerLocation();
 		moveEnemies();
 		updateEnemies9();
@@ -459,10 +463,24 @@ public class GameLogic {
 	}
 
 	public void updateMultiBlockPhysics(Context context) {
+		advanceShields();
 		calculatePlayerLocation();
 		moveEnemies();
 		updateMultiBlockEnemies();
 		checkForHitsFiveBlock(context);
+	}
+
+	private void advanceShields() {
+		if (gv.playerShields != null) {
+			for (int i = 0; i < gv.getPlayerShieldsLen(); i++) {
+				gv.getPlayerShields(i).advance();
+			}
+		}
+		if (gv.enemyShields != null) {
+			for (int i = 0; i < gv.enemyShields.length; i++) {
+				gv.getEnemyShields(i).advance();
+			}
+		}
 	}
 
 	/**

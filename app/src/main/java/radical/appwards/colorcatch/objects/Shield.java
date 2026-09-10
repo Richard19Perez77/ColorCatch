@@ -3,7 +3,6 @@ package radical.appwards.colorcatch.objects;
 import java.io.Serializable;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Paint.Style;
 
 /**
@@ -53,24 +52,20 @@ public class Shield implements Serializable {
 		paint.setStyle(Style.FILL);
 	}
 
-	// the shield object has to be sent since the player moves so does the
-	// shield
-	public void update(Canvas canvas, int jx1, int jy1, int jx2, int jy2,
+	public void draw(Canvas canvas, int jx1, int jy1, int jx2, int jy2,
 			Paint paint) {
-
-		canvas.drawRect(new RectF(jx1 - shieldCount, jy1 - shieldCount, jx2
-				+ shieldCount, jy2 + shieldCount), paint);
-		shieldCount += 3;
-		if (shieldCount >= 30) {
-			exists = false;
-		}
+		canvas.drawRect(jx1 - shieldCount, jy1 - shieldCount, jx2
+				+ shieldCount, jy2 + shieldCount, paint);
 	}
 
-	// the shield object has to be sent since the player moves so does the
-	// shield
-	public void update(Canvas canvas) {
-		canvas.drawRect(new RectF(x - shieldCount, y - shieldCount, x2
-				+ shieldCount, y2 + shieldCount), paint);
+	public void draw(Canvas canvas) {
+		canvas.drawRect(x - shieldCount, y - shieldCount, x2
+				+ shieldCount, y2 + shieldCount, paint);
+	}
+
+	public void advance() {
+		if (!exists)
+			return;
 		shieldCount += 3;
 		if (shieldCount >= 30) {
 			exists = false;
