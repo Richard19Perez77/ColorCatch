@@ -4,7 +4,6 @@ import java.util.Random;
 
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 
@@ -47,7 +46,7 @@ public class GameLogic {
 	 * @param c
 	 *            The drawable canvas.
 	 */
-	public void destroyAllEnemies(Canvas c) {
+	public void destroyAllEnemies() {
 		int tempLeft;
 		// destroy all enemies on radical.appwards.colorcatch.screen
 		for (int i = 0; i < gv.maxEnemies; i++) {

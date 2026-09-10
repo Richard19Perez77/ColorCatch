@@ -98,36 +98,12 @@ public class GameScreenImpl implements Screen {
             }
 
             level.myDraw(canvas);
-
-            checkColorMatch(context, canvas);
-
-            // check for new radical.appwards.colorcatch.level if not radical.appwards.colorcatch.game over
-            if (gv.gameTimer >= gv.getNewLevel()) {
-                gv.gameTimer = 0;
-                gv.setEnemyCreation(false);
-                if (gv.getCurrLevel() >= levels) {
-                    goToEnding(context, canvas);
-                } else {
-                    gv.incCurrentLevel();
-                    gl.destroyAllEnemies(canvas);
-                    level = lf.createLevel(context, gv.getCurrLevel());
-                    gv.setEnemyCreation(false);
-                    bg.refresh();
-                    if (gv.getCurrLevel() == GameVariables.LEVELS / 2)
-                        Audio.getInstance().playTrack2(context);
-                }
-            }
-
-            // check for 0 health and start radical.appwards.colorcatch.game over
-            if (gv.getHealth() == 0 && gv.getCurrLevel() != 0) {
-                goToEnding(context, canvas);
-            }
         }
 
     }
 
-    private void goToEnding(Context context, Canvas canvas) {
-        gl.destroyAllEnemies(canvas);
+    private void goToEnding(Context context) {
+        gl.destroyAllEnemies();
         level = lf.createLevel(context, 0);
         gv.setCurrLevel(0);
         Audio.getInstance().playEndTrack(context);
@@ -136,10 +112,8 @@ public class GameScreenImpl implements Screen {
     /**
      * Checks the color of the player and the target color to be so similar
      * enough to score a point.
-     *
-     * @param canvas The object the rest of the radical.appwards.colorcatch.objects are drawn on.
      */
-    private void checkColorMatch(Context context, Canvas canvas) {
+    private void checkColorMatch(Context context) {
         int colora, colorb = 0;
 
         if (gv.player != null && gv.getTargetPaint() != null) {
@@ -157,7 +131,7 @@ public class GameScreenImpl implements Screen {
 
             if (colorb >= 235 && colorb <= 256) {
                 Audio.getInstance().playSound(context, POINT);
-                gl.destroyAllEnemies(canvas);
+                gl.destroyAllEnemies();
                 gl.newTargetColor();
 
                 String message = "Drag square to catch " + getTargetColoText()
@@ -225,6 +199,30 @@ public class GameScreenImpl implements Screen {
             gv.gameTimer = gv.gameTimer + 1;
         bg.updatePhysics();
         level.updatePhysics(context);
+
+        if (gv.getGameVarsLoaded()) {
+            checkColorMatch(context);
+
+            if (gv.gameTimer >= gv.getNewLevel()) {
+                gv.gameTimer = 0;
+                gv.setEnemyCreation(false);
+                if (gv.getCurrLevel() >= levels) {
+                    goToEnding(context);
+                } else {
+                    gv.incCurrentLevel();
+                    gl.destroyAllEnemies();
+                    level = lf.createLevel(context, gv.getCurrLevel());
+                    gv.setEnemyCreation(false);
+                    bg.refresh();
+                    if (gv.getCurrLevel() == GameVariables.LEVELS / 2)
+                        Audio.getInstance().playTrack2(context);
+                }
+            }
+
+            if (gv.getHealth() == 0 && gv.getCurrLevel() != 0) {
+                goToEnding(context);
+            }
+        }
     }
 
     /**
