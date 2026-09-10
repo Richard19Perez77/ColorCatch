@@ -1,12 +1,8 @@
 package radical.appwards.colorcatch;
 
-import radical.appwards.colorcatch.game.ColorCatchGame;
-import radical.appwards.colorcatch.variables.GameVariables;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +16,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import radical.appwards.colorcatch.game.ColorCatchGame;
+import radical.appwards.colorcatch.variables.GameVariables;
 
 /**
  * The class that creates the view to be seen and the thread to update the view as well as draw the radical.appwards.colorcatch.objects to be shown.
@@ -297,14 +296,6 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
         static final int STATE_WIN = 5;
 
         private static final long FRAME_MS = 16;
-
-        /**
-         * I don't use difficult but we could modify the radical.appwards.colorcatch.game to add more
-         * squares or speed.
-         */
-        private static final String KEY_DIFFICULTY = "mDifficulty";
-
-        private int mDifficulty;
 
         /**
          * used to tell if the radical.appwards.colorcatch.game is paused or running.
