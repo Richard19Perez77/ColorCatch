@@ -23,7 +23,6 @@ import radical.appwards.colorcatch.variables.GameVariables;
  *
  * @author Rick Perez
  */
-
 public class GameScreenImpl implements Screen {
 
     private final GameVariables gv;
@@ -102,9 +101,10 @@ public class GameScreenImpl implements Screen {
             if (gv.gameTimer >= gv.getNewLevel()) {
                 gv.gameTimer = 0;
                 gv.setEnemyCreation(false);
-                gv.incCurrentLevel();
-                // switch to next radical.appwards.colorcatch.level if possible
-                if (gv.getCurrLevel() <= levels) {
+                if (gv.getCurrLevel() >= levels) {
+                    goToEnding(context, canvas);
+                } else {
+                    gv.incCurrentLevel();
                     gl.destroyAllEnemies(canvas);
                     level = lf.createLevel(context, gv.getCurrLevel());
                     gv.setEnemyCreation(false);
@@ -116,13 +116,17 @@ public class GameScreenImpl implements Screen {
 
             // check for 0 health and start radical.appwards.colorcatch.game over
             if (gv.getHealth() == 0 && gv.getCurrLevel() != 0) {
-                gl.destroyAllEnemies(canvas);
-                level = lf.createLevel(context, 0);
-                gv.setCurrLevel(0);
-                Audio.getInstance().playEndTrack(context);
+                goToEnding(context, canvas);
             }
         }
 
+    }
+
+    private void goToEnding(Context context, Canvas canvas) {
+        gl.destroyAllEnemies(canvas);
+        level = lf.createLevel(context, 0);
+        gv.setCurrLevel(0);
+        Audio.getInstance().playEndTrack(context);
     }
 
     /**

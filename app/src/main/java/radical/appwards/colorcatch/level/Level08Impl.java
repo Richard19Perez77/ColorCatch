@@ -16,7 +16,6 @@ import android.graphics.Point;
  * @author Rick
  * 
  */
-
 public class Level08Impl implements Level {
 
 	private GameVariables gv;

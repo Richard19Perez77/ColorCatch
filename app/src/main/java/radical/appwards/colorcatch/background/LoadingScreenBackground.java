@@ -12,7 +12,6 @@ import android.graphics.Color;
  * 
  * @author Rick
  */
-
 public class LoadingScreenBackground {
 
 	private final GameVariables gv;

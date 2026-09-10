@@ -37,7 +37,7 @@ public class GameScreenBackground {
 
     /**
      * Used to draw the shapes on radical.appwards.colorcatch.screen.
-     *
+     * <p>
      * Each shape has a draw method to define how it's to be drawn.
      *
      * @param canvas The canvas to draw on.

@@ -15,7 +15,6 @@ import android.os.Process;
  * @author Rick
  * 
  */
-
 public class Level02Impl implements Level {
 
 	private GameVariables gv;

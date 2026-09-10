@@ -16,7 +16,6 @@ import radical.appwards.colorcatch.variables.GameVariables;
  *
  * @author Rick
  */
-
 public class LevelEndingImpl implements Level {
 
     private final GameVariables gv;

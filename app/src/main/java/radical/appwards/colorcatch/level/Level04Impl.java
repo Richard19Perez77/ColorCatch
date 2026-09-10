@@ -15,7 +15,6 @@ import radical.appwards.colorcatch.variables.GameVariables;
  * @author Rick
  * 
  */
-
 public class Level04Impl implements Level {
 
 	private GameVariables gv;

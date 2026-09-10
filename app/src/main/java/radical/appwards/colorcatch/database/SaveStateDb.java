@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
  * 
  * @author Rick
  */
-
 public class SaveStateDb {
 
 	private SQLiteDatabase stateDB;

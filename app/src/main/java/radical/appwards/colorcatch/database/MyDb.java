@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
  * @author Rick
  * 
  */
-
 public class MyDb {
 
 	private static final String DATABASE_NAME = "highscores.db";
