@@ -102,91 +102,79 @@ public class GameVariables implements Serializable {
     }
 
     public void initPaint() {
+        bluePaint.setColor(Color.BLUE);
+        bluePaint.setStrokeWidth(3);
+        bluePaint.setStyle(Style.FILL);
 
-        Thread loadingThread = new Thread() {
-            @Override
-            public void run() {
-                initPaintObjects();
-            }
+        redPaint.setColor(Color.RED);
+        redPaint.setStrokeWidth(3);
+        redPaint.setStyle(Style.FILL);
 
-            public void initPaintObjects() {
-                bluePaint.setColor(Color.BLUE);
-                bluePaint.setStrokeWidth(3);
-                bluePaint.setStyle(Style.FILL);
+        yellowPaint.setColor(Color.YELLOW);
+        yellowPaint.setStrokeWidth(3);
+        yellowPaint.setStyle(Style.FILL);
 
-                redPaint.setColor(Color.RED);
-                redPaint.setStrokeWidth(3);
-                redPaint.setStyle(Style.FILL);
+        greenPaint.setColor(Color.GREEN);
+        greenPaint.setStrokeWidth(3);
+        greenPaint.setStyle(Style.FILL);
 
-                yellowPaint.setColor(Color.YELLOW);
-                yellowPaint.setStrokeWidth(3);
-                yellowPaint.setStyle(Style.FILL);
+        redFillPaint.setColor(Color.RED);
+        redFillPaint.setStyle(Style.FILL);
 
-                greenPaint.setColor(Color.GREEN);
-                greenPaint.setStrokeWidth(3);
-                greenPaint.setStyle(Style.FILL);
+        blueFillPaint.setColor(Color.BLUE);
+        blueFillPaint.setStyle(Style.FILL);
 
-                redFillPaint.setColor(Color.RED);
-                redFillPaint.setStyle(Style.FILL);
+        whiteFillPaint.setColor(Color.WHITE);
+        whiteFillPaint.setStyle(Style.FILL);
 
-                blueFillPaint.setColor(Color.BLUE);
-                blueFillPaint.setStyle(Style.FILL);
+        blackBoldPaint.setColor(Color.BLACK);
+        blackBoldPaint.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 48, metrics));
+        blackBoldPaint.setTextAlign(Paint.Align.CENTER);
+        blackBoldPaint.setTypeface(Typeface.DEFAULT_BOLD);
 
-                whiteFillPaint.setColor(Color.WHITE);
-                whiteFillPaint.setStyle(Style.FILL);
+        yellowBoldPaint.setColor(Color.YELLOW);
+        yellowBoldPaint.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 48, metrics));
+        yellowBoldPaint.setTextAlign(Paint.Align.CENTER);
+        yellowBoldPaint.setTypeface(Typeface.DEFAULT_BOLD);
 
-                blackBoldPaint.setColor(Color.BLACK);
-                blackBoldPaint.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 48, metrics));
-                blackBoldPaint.setTextAlign(Paint.Align.CENTER);
-                blackBoldPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        whitePaint.setColor(Color.WHITE);
+        whitePaint.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 20, metrics));
 
-                yellowBoldPaint.setColor(Color.YELLOW);
-                yellowBoldPaint.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 48, metrics));
-                yellowBoldPaint.setTextAlign(Paint.Align.CENTER);
-                yellowBoldPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        whitePaintRightAligned.setColor(Color.WHITE);
+        whitePaintRightAligned.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 20, metrics));
+        whitePaintRightAligned.setTextAlign(Paint.Align.RIGHT);
 
-                whitePaint.setColor(Color.WHITE);
-                whitePaint.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 20, metrics));
+        whitePaintCenterAlign.setColor(Color.WHITE);
+        whitePaintCenterAlign.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 20, metrics));
+        whitePaintCenterAlign.setTextAlign(Paint.Align.CENTER);
 
-                whitePaintRightAligned.setColor(Color.WHITE);
-                whitePaintRightAligned.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 20, metrics));
-                whitePaintRightAligned.setTextAlign(Paint.Align.RIGHT);
+        blackPaint.setColor(Color.BLACK);
+        blackPaint.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 20, metrics));
+        blackPaint.setTextAlign(Paint.Align.CENTER);
 
-                whitePaintCenterAlign.setColor(Color.WHITE);
-                whitePaintCenterAlign.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 20, metrics));
-                whitePaintCenterAlign.setTextAlign(Paint.Align.CENTER);
+        randPaint.setColor(Color.RED);
+        randPaint.setTextSize(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP, 20, metrics));
+        randPaint.setTextAlign(Paint.Align.CENTER);
+        randPaint.setStyle(Style.FILL);
 
-                blackPaint.setColor(Color.BLACK);
-                blackPaint.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 20, metrics));
-                blackPaint.setTextAlign(Paint.Align.CENTER);
+        targetPaint.setStrokeWidth(10);
+        targetPaint.setStyle(Style.STROKE);
 
-                randPaint.setColor(Color.RED);
-                randPaint.setTextSize(TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_SP, 20, metrics));
-                randPaint.setTextAlign(Paint.Align.CENTER);
-                randPaint.setStyle(Style.FILL);
-
-                targetPaint.setStrokeWidth(10);
-                targetPaint.setStyle(Style.STROKE);
-
-                switch (rand.nextInt(2)) {
-                    case 0:
-                        targetPaint.setColor(Color.BLUE);
-                        break;
-                    case 1:
-                        targetPaint.setColor(Color.GREEN);
-                        break;
-                }
-            }
-        };
-
-        loadingThread.start();
+        switch (rand.nextInt(2)) {
+            case 0:
+                targetPaint.setColor(Color.BLUE);
+                break;
+            case 1:
+                targetPaint.setColor(Color.GREEN);
+                break;
+        }
     }
 
     public void cyclePaint() {
