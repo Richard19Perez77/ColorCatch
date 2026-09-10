@@ -175,6 +175,7 @@ public class GameScreenImpl implements Screen {
                         text.setLayoutParams(lp);
                         text.setGravity(Gravity.CENTER);
                         text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        text.setTextColor(contrastText(snackbarColor));
                     }
                     snackbar.show();
                 });
@@ -186,6 +187,14 @@ public class GameScreenImpl implements Screen {
                 gv.setNewMixedColorInt = true;
             }
         }
+    }
+
+    private static int contrastText(int background) {
+        int r = Color.red(background);
+        int g = Color.green(background);
+        int b = Color.blue(background);
+        double luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+        return luminance > 140 ? Color.BLACK : Color.WHITE;
     }
 
     private String getTargetColoText() {
