@@ -29,7 +29,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     public MediaPlayer mp;
     public SoundPool sp;
     private float volume;
-    private float fSpeed;
+    private float fSpeed = 1.0f;
     private float prevVolume = 1;
     private float currVolume = 1;
     private SparseIntArray soundsMap;
@@ -229,7 +229,8 @@ public class Audio implements MediaPlayer.OnPreparedListener {
      * @param sound The mapping of the sound to differentiate what to play.
      */
     public void playSound(Context context, int sound) {
-        // plays the sounds effect called
+        if (sp == null || soundsMap == null)
+            return;
         AudioManager mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
         float streamVolumeMax = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
