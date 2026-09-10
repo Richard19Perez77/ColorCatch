@@ -57,7 +57,6 @@ public class Level09Impl implements Level {
 
 		if (gv.gameTimer < gv.INTRO_PAUSE_TIME) {
 			gv.setEnemyCreation(false);
-			gv.cyclePaint();
 			canvas.drawText("!! Loading Level 9 !!", gv.screenW / 2,
 					gv.screenH / 2, gv.randPaint);
 		} else {

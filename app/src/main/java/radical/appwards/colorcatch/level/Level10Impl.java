@@ -57,7 +57,6 @@ public class Level10Impl implements Level {
 
 		if (gv.gameTimer < gv.INTRO_PAUSE_TIME) {
 			gv.setEnemyCreation(false);
-			gv.cyclePaint();
 			canvas.drawText("!! Loading Level 10 !!", gv.screenW / 2,
 					gv.screenH / 2, gv.randPaint);
 		} else {

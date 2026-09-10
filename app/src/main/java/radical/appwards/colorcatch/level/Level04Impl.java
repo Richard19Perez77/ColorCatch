@@ -48,7 +48,6 @@ public class Level04Impl implements Level {
 			gd.myDraw(canvas);
 
 		if (gv.gameTimer < gv.INTRO_PAUSE_TIME) {
-			gv.cyclePaint();
 			canvas.drawText("!! Loading Level 4 !!", gv.screenW / 2,
 					gv.screenH / 2, gv.randPaint);
 		} else {
