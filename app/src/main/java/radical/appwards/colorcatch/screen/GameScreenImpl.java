@@ -231,6 +231,8 @@ public class GameScreenImpl implements Screen {
     public void eventAction(MotionEvent event) {
         // ending radical.appwards.colorcatch.screen graphics are touch responsive
         if (gv.getCurrLevel() == 0) {
+            if (gv.xs == null || gv.ys == null)
+                return;
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 gv.clearXsYs();
