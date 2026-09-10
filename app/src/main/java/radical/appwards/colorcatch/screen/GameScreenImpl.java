@@ -151,10 +151,15 @@ public class GameScreenImpl implements Screen {
                 gl.destroyAllEnemies(canvas);
                 gl.newTargetColor();
 
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Drag square to catch " + getTargetColoText() + " squares", Snackbar.LENGTH_SHORT);
-                snackbar.getView().setBackgroundColor(gv.getTargetPaint().getColor());
-                snackbar.show();
+                String message = "Drag square to catch " + getTargetColoText()
+                        + " squares";
+                int snackbarColor = gv.getTargetPaint().getColor();
+                coordinatorLayout.post(() -> {
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                            message, Snackbar.LENGTH_SHORT);
+                    snackbar.getView().setBackgroundColor(snackbarColor);
+                    snackbar.show();
+                });
 
                 gv.score = gv.score + GameVariables.SCORE_INC;
 
