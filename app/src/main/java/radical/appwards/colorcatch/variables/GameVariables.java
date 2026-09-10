@@ -26,7 +26,7 @@ import android.util.TypedValue;
 public class GameVariables implements Serializable {
 
     // set to true to quick play to a certain radical.appwards.colorcatch.level
-    public boolean DEBUG_MODE = true;
+    public boolean DEBUG_MODE = false;
     // set the level to play at first, you might have to restart for it to take
     // effect and by pass radical.appwards.colorcatch.database continue
     public int DEBUG_LEVEL = 8;

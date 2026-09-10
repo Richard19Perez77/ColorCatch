@@ -24,11 +24,20 @@ public class PlotPoints {
     public Point[] plotLine(Point a, Point b) {
         this.a = a;
         this.b = b;
+        if (a.x == b.x && a.y == b.y) {
+            pointArr = new Point[] { new Point(a.x, a.y) };
+            return pointArr;
+        }
         // create array of points based on longer x or y distance
         if (Math.abs(a.y - b.y) > Math.abs(a.x - b.x)) {
             pointArr = new Point[Math.abs(a.y - b.y)];
         } else {
             pointArr = new Point[Math.abs(a.x - b.x)];
+        }
+
+        if (pointArr.length == 0) {
+            pointArr = new Point[] { new Point(b.x, b.y) };
+            return pointArr;
         }
 
         for (int i = 0; i < pointArr.length; i++) {
@@ -38,6 +47,13 @@ public class PlotPoints {
 
         PlotPointsToLocation();
         return pointArr;
+    }
+
+    private float stepSize(double distance) {
+        int steps = pointArr.length - 1;
+        if (steps <= 0)
+            return 0f;
+        return (float) distance / steps;
     }
 
     /***
@@ -149,7 +165,7 @@ public class PlotPoints {
             double distance = Math.abs(a.y - b.y);
 
             // every x steps we need to move up or down a step as well
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -199,7 +215,7 @@ public class PlotPoints {
 
             // every N steps down we move 1 step right
             // N = distancePerMove
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -253,7 +269,7 @@ public class PlotPoints {
             int startValue = a.y;
             double distance = Math.abs(a.y - b.y);
 
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -295,7 +311,7 @@ public class PlotPoints {
             int startValue = a.x;
             double distance = Math.abs(a.x - b.x);
 
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -367,7 +383,7 @@ public class PlotPoints {
             int startValue = a.y;
             int endValue = b.y;
             int distance = Math.abs(endValue - startValue);
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -411,7 +427,7 @@ public class PlotPoints {
 
             int distance = Math.abs(endValue - startValue);
 
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
             if (distancePerMove == 1.0) {
                 // increment is at the halfway point in the array
                 int i = 0;
@@ -468,7 +484,7 @@ public class PlotPoints {
             int startValue = a.y;
             int endValue = b.y;
             int distance = Math.abs(endValue - startValue);
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
@@ -509,7 +525,7 @@ public class PlotPoints {
             int startValue = a.x;
             int endValue = b.x;
             int distance = Math.abs(endValue - startValue);
-            float distancePerMove = (float) distance / (float) (pointArr.length - 1);
+            float distancePerMove = stepSize(distance);
 
             if (distancePerMove == 1.0) {
                 float acc = startValue;
