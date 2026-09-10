@@ -63,14 +63,15 @@ public class GameScreenImpl implements Screen {
                 gv.setCurrLevel(1);
             }
         }
-
     }
 
     /**
      * Create the radical.appwards.colorcatch.level retrieved from the savedSate radical.appwards.colorcatch.database.
      */
     public void gameContinue(Context context) {
-        // start radical.appwards.colorcatch.game with saved radical.appwards.colorcatch.game radical.appwards.colorcatch.variables loaded
+        // Level 2+ assume pools from Level 1. After a process kill those
+        // arrays are gone, so allocate them before opening the saved level.
+        gv.setUpGame();
         level = lf.createLevel(context, gv.getCurrLevel());
     }
 

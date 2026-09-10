@@ -368,7 +368,7 @@ public class GameVariables implements Serializable {
     }
 
     public void setHealth(int h) {
-        if (h >= 0 && h < health) {
+        if (h >= 0) {
             health = h;
         }
     }

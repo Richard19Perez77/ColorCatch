@@ -55,7 +55,7 @@ public class SaveStateDb {
 
 				ContentValues values = new ContentValues();
 
-				values.put(COLUMN_LEVEL, gv.level);
+				values.put(COLUMN_LEVEL, gv.getCurrLevel());
 				values.put(COLUMN_HEALTH, gv.getHealth());
 				values.put(COLUMN_ENEMYCOUNT, gv.getEnemyCount());
 				values.put(COLUMN_GAMETIMER, gv.gameTimer);
@@ -96,7 +96,9 @@ public class SaveStateDb {
 			if (c.moveToLast()) {
 
 				// radical.appwards.colorcatch.game will restart with old radical.appwards.colorcatch.objects
-				gv.level = c.getInt(1);
+				int savedLevel = c.getInt(1);
+				gv.setCurrLevel(savedLevel);
+				gv.level = savedLevel;
 				gv.setHealth(c.getInt(2));
 				gv.enemyCount = c.getInt(3);
 				gv.gameTimer = c.getLong(4);
