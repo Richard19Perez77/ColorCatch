@@ -53,6 +53,8 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
      */
     GameVariables gv;
 
+    private boolean pausedByFocus;
+
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message m) {
@@ -132,12 +134,19 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
 
     /**
      * Random events that close the app or steal the view will call this and
-     * pause the radical.appwards.colorcatch.game.
+     * pause the radical.appwards.colorcatch.game. Only auto-resume if we paused because of focus,
+     * not because the user chose Pause in the menu.
      */
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        if (!hasWindowFocus)
-            thread.pause();
+        if (!hasWindowFocus) {
+            if (thread.pause()) {
+                pausedByFocus = true;
+            }
+        } else if (pausedByFocus) {
+            pausedByFocus = false;
+            thread.unPause();
+        }
     }
 
     /**
@@ -301,11 +310,13 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
             context = c;
         }
 
-        void pause() {
+        boolean pause() {
             synchronized (mSurfaceHolder) {
                 if (mMode == STATE_RUNNING) {
                     setState(STATE_PAUSE);
+                    return true;
                 }
+                return false;
             }
         }
 
