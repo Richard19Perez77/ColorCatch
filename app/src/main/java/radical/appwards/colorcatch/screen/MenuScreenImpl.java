@@ -125,6 +125,9 @@ class MenuScreenImpl implements Screen {
             canvas.drawCircle(x, y, endR, circlePaint);
 
             for (int i = 0; i < squares - 1; i++) {
+                if (squareList[i].movePoints == null
+                        || squareList[i].movePoints.length == 0)
+                    continue;
                 int nextPoint = squareList[i].nextPoint();
                 int offset = squareList[i].offset;
                 switch (squareList[i].side) {
@@ -248,26 +251,41 @@ class MenuScreenImpl implements Screen {
         Square() {
             side = random.nextInt(4);
             movePoints = plotPoints.plotLine(getBorderPoint(side), new Point(gv.screenW / 2, gv.screenH / 2));
-            nextReduceMove = movePoints.length / slen;
-            nextMove = random.nextInt(movePoints.length - 1);
+            nextReduceMove = pathStep();
+            nextMove = randomPathIndex();
         }
 
         int nextPoint() {
-            nextMove += gv.speedModifier;
-            if (nextMove >= movePoints.length) {
-                nextMove = 0;
-                offset = 0;
-            }
+            if (movePoints == null || movePoints.length == 0)
+                return 0;
+            if (nextMove >= movePoints.length)
+                return movePoints.length - 1;
             return nextMove;
         }
 
         void update() {
-            if (nextReduceMove != 0) {
-                if (nextMove % nextReduceMove == 0) {
-                    if (offset < nextReduceMove)
-                        offset++;
-                }
+            if (movePoints == null || movePoints.length == 0)
+                return;
+            nextMove += gv.speedModifier;
+            if (nextMove >= movePoints.length) {
+                nextMove = 0;
+                offset = 0;
+            } else if (nextReduceMove != 0 && nextMove % nextReduceMove == 0) {
+                if (offset < nextReduceMove)
+                    offset++;
             }
+        }
+
+        private int pathStep() {
+            if (slen <= 0 || movePoints == null || movePoints.length == 0)
+                return 0;
+            return movePoints.length / slen;
+        }
+
+        private int randomPathIndex() {
+            if (movePoints == null || movePoints.length <= 1)
+                return 0;
+            return random.nextInt(movePoints.length - 1);
         }
 
         private Point getBorderPoint(int s) {
@@ -286,8 +304,8 @@ class MenuScreenImpl implements Screen {
 
         void updateNewStart(float downX, float downY) {
             movePoints = plotPoints.plotLine(getBorderPoint(side), new Point((int) downX, (int) downY));
-            nextReduceMove = movePoints.length / slen;
-            nextMove = random.nextInt(movePoints.length - 1);
+            nextReduceMove = pathStep();
+            nextMove = randomPathIndex();
         }
     }
 
