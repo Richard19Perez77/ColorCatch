@@ -3,13 +3,13 @@ package radical.appwards.colorcatch.screen;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RadialGradient;
 import android.view.MotionEvent;
 
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 import radical.appwards.colorcatch.movements.PlotPoints;
 import radical.appwards.colorcatch.variables.GameVariables;
@@ -37,20 +37,13 @@ class MenuScreenImpl implements Screen {
     private Paint circlePaint = new Paint(), yellowPaint = new Paint(),
             greenPaint = new Paint(), blackPaint = new Paint();
     private RadialGradient radialG;
+    private final Matrix shaderMatrix = new Matrix();
     private String radical, music;
     private int x, y, startR, endR, r, colora, colorb, squares, slen, h, w;
     private Random random = new Random();
     private boolean menuVarsLoaded, incR;
     private Square[] squareList;
     private PlotPoints plotPoints;
-
-    private Callable<RadialGradient> radialGradientCallable = new Callable<RadialGradient>() {
-        @Override
-        public RadialGradient call() throws Exception {
-            return new RadialGradient(x, y, r, colora, colorb,
-                    android.graphics.Shader.TileMode.CLAMP);
-        }
-    };
 
     private boolean doUpdateSquares;
     private float downX;
@@ -105,7 +98,7 @@ class MenuScreenImpl implements Screen {
                 endR = r * 4;
                 colora = Color.RED;
                 colorb = Color.BLUE;
-                radialG = new RadialGradient(x, y, r, colora, colorb,
+                radialG = new RadialGradient(x, y, startR, colora, colorb,
                         android.graphics.Shader.TileMode.CLAMP);
                 circlePaint.setShader(radialG);
 
@@ -222,12 +215,10 @@ class MenuScreenImpl implements Screen {
                 r -= 7;
             }
 
-            try {
-                radialG = radialGradientCallable.call();
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (startR > 0) {
+                shaderMatrix.setScale(r / (float) startR, r / (float) startR, x, y);
+                radialG.setLocalMatrix(shaderMatrix);
             }
-            circlePaint.setShader(radialG);
 
             if (doUpdateSquares) {
                 doUpdateSquares = false;
