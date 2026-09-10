@@ -114,13 +114,23 @@ public class Audio implements MediaPlayer.OnPreparedListener {
 
     /**
      * Track 2 starts when entering level {@code LEVELS / 2} (5 of 10) and stays
-     * for the rest of the run. Resume/continue must use the same cutoff as
-     * {@link #playTrack2}; {@code <=} sent level 5 back to track 1.
+     * for the rest of the run. Level 0 is the ending screen. Resume/continue
+     * must use the same rules as {@link #playTrack2} / {@link #playEndTrack}.
      */
     private int gameTrackRes() {
-        if (GameVariables.getInstance().getCurrLevel() >= GameVariables.LEVELS / 2)
+        int level = GameVariables.getInstance().getCurrLevel();
+        if (level == 0)
+            return R.raw.ending;
+        if (level >= GameVariables.LEVELS / 2)
             return R.raw.track2;
         return R.raw.track1;
+    }
+
+    private int resumeTrackRes() {
+        GameVariables gv = GameVariables.getInstance();
+        if (gv.getMenuPlaying() || gv.loadingPlaying)
+            return R.raw.intro;
+        return gameTrackRes();
     }
 
     /**
@@ -129,7 +139,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
      */
     private void resumeMusic(Context context) {
         path = Uri.parse("android.resource://radical.appwards.colorcatch/"
-                + gameTrackRes());
+                + resumeTrackRes());
 
         try {
             mp.reset();
