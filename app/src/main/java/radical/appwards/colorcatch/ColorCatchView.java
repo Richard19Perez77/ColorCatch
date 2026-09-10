@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -269,6 +270,8 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
         static final int STATE_RUNNING = 4;
         static final int STATE_WIN = 5;
 
+        private static final long FRAME_MS = 16;
+
         /**
          * I don't use difficult but we could modify the radical.appwards.colorcatch.game to add more
          * squares or speed.
@@ -317,7 +320,9 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
          * radical.appwards.colorcatch.objects.
          */
         @Override
+        @SuppressWarnings("BusyWait")
         public void run() {
+            long nextFrame = SystemClock.uptimeMillis();
             while (mRun) {
                 Canvas c = null;
                 try {
@@ -338,6 +343,21 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
                     if (c != null) {
                         mSurfaceHolder.unlockCanvasAndPost(c);
                     }
+                }
+
+                nextFrame += FRAME_MS;
+                long wait = nextFrame - SystemClock.uptimeMillis();
+                if (wait > 0) {
+                    try {
+                        // Frame limiter, not a poll. Inspection treats any sleep-in-loop as busy-wait.
+                        //noinspection BusyWait
+                        Thread.sleep(wait);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                } else if (wait < -FRAME_MS) {
+                    nextFrame = SystemClock.uptimeMillis();
                 }
             }
         }
