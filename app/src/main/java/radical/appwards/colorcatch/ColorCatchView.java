@@ -211,6 +211,24 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
         thread.pause();
     }
 
+    /**
+     * Overflow-menu Pause. Opening that menu already stole focus and set
+     * {@link #pausedByFocus}, which would unpause when the menu closed.
+     */
+    public void pauseFromMenu() {
+        thread.pause();
+        pausedByFocus = false;
+    }
+
+    /**
+     * Overflow-menu Resume. Clears the focus flag so a following focus event
+     * cannot fight this choice.
+     */
+    public void resumeFromMenu() {
+        pausedByFocus = false;
+        thread.unPause();
+    }
+
     public boolean performClick() {
         return super.performClick();
     }
@@ -338,15 +356,11 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
                 try {
                     c = mSurfaceHolder.lockCanvas(null);
                     synchronized (mSurfaceHolder) {
-                        if (mMode == STATE_RUNNING) {
-                            if (c != null) {
+                        if (c != null) {
+                            if (mMode == STATE_RUNNING) {
                                 updatePhysics();
-                                doDraw(c);
                             }
-                        } else {
-                            if (c != null) {
-                                c.drawColor(Color.BLACK);
-                            }
+                            doDraw(c);
                         }
                     }
                 } finally {

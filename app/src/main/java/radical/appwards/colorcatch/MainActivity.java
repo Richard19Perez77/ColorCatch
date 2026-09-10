@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity {
                 gameThread.returnToMenu();
                 return true;
             case MENU_PAUSE:
-                gameThread.pause();
+                colorCatchView.pauseFromMenu();
                 return true;
             case MENU_RESUME:
-                gameThread.unPause();
+                colorCatchView.resumeFromMenu();
                 return true;
             case MUSIC_TOGGLE:
                 audio.toggleMusic(getApplicationContext());
