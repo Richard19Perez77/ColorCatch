@@ -53,18 +53,16 @@ public class GameScreenImpl implements Screen {
         gl = new GameLogic();
         lf = new LevelFactory();
 
-        if (gv.continuedGame) {
+        if (gv.DEBUG_MODE) {
+            gv.continuedGame = false;
+            gv.setUpGame();
+            level = lf.createLevel(context, gv.DEBUG_LEVEL);
+            gv.setCurrLevel(gv.DEBUG_LEVEL);
+        } else if (gv.continuedGame) {
             gameContinue(context);
         } else {
-            //set debug radical.appwards.colorcatch.level
-            if (gv.DEBUG_MODE) {
-                gv.setUpGame();
-                level = lf.createLevel(context, gv.DEBUG_LEVEL);
-                gv.setCurrLevel(gv.DEBUG_LEVEL);
-            } else {
-                level = lf.createLevel(context, 1);
-                gv.setCurrLevel(1);
-            }
+            level = lf.createLevel(context, 1);
+            gv.setCurrLevel(1);
         }
     }
 

@@ -43,8 +43,7 @@ public class MovablePathImpl implements Movable, Serializable {
         rect.left = point.x;
         rect.right = point.x + gv.getEnemyWidth();
 
-        position++;
-        position += speed;
+        position += Math.max(1, speed);
 
         if (position > points.length - 1) {
             position = 0;
