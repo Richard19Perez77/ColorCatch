@@ -78,8 +78,7 @@ public class GameLogic {
 						tempTop + gv.getEnemyHeight(),
 						gv.enemyArray[i].getSpeed());
 			} else {
-				tempLeft = rand.nextInt((gv.screenW - gv.getEnemyWidth())
-						- (gv.getEnemyWidth()) + 1);
+				tempLeft = gv.randomEnemyLeft();
 				gv.enemyArray[i].destroy(tempLeft, 0 - gv.getEnemyHeight(),
 						tempLeft + gv.getEnemyWidth(), 0,
 						gv.enemyArray[i].getSpeed());
@@ -140,8 +139,7 @@ public class GameLogic {
 	 */
 	public void replaceEnemyAtTop(Enemy enemy) {
 		gv.enemyCount = (gv.getEnemyCount() - 1);
-		tempTop = rand.nextInt((gv.screenW - gv.getEnemyWidth())
-				- (gv.getEnemyWidth()) + 1);
+		tempTop = gv.randomEnemyLeft();
 		enemy.destroy(tempTop, (-1 * gv.getEnemyHeight()),
 				tempTop + gv.getEnemyWidth(), 0, enemy.getSpeed());
 	}
@@ -540,8 +538,7 @@ public class GameLogic {
 			multiBlock.setSplit(false);
 			multiBlock.clearEnemies();
 			acc = 0;
-			tempTop = rand.nextInt((gv.screenW - gv.getEnemyWidth())
-					- (gv.getEnemyWidth()) + 1);
+			tempTop = gv.randomEnemyLeft();
 			for (int i = 0; i < gv.getLevelEnemies(); i++) {
 				if (!gv.enemyArray[i].getExist()) {
 					gv.enemyArray[i].destroy(tempTop,

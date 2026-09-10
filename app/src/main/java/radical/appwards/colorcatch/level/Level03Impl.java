@@ -100,8 +100,7 @@ public class Level03Impl implements Level {
 
 				// reset enemies at new radical.appwards.colorcatch.level with new radical.appwards.colorcatch.movements
 				for (int i = 0; i < gv.maxEnemies; i++) {
-					gv.tempLeft = gv.rand.nextInt((gv.screenW - gv.enemyW)
-							- (gv.enemyW) + 1);
+					gv.tempLeft = gv.randomEnemyLeft();
 					gv.enemyArray[i] = new Enemy(gv.tempLeft, 0 - gv.enemyH,
 							gv.tempLeft + gv.enemyW, 0, gv.speedModifier);
 

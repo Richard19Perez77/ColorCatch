@@ -108,7 +108,7 @@ public class Level06Impl implements Level {
 				gv.level = 6;
 
 				for (int i = 0; i < gv.maxEnemies; i++) {
-					gv.tempLeft = gv.rand.nextInt((gv.screenW - gv.enemyW) - (gv.enemyW) + 1);
+					gv.tempLeft = gv.randomEnemyLeft();
 					gv.enemyArray[i] = new Enemy(gv.tempLeft, 0 - gv.enemyH, gv.tempLeft
 							+ gv.enemyW, 0, gv.speedModifier);
 

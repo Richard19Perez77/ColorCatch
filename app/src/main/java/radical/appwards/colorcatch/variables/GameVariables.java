@@ -195,6 +195,17 @@ public class GameVariables implements Serializable {
         return enemyW;
     }
 
+    /**
+     * Random left edge so the enemy stays fully on-screen. The old formula
+     * subtracted width twice and never spawned in the rightmost column.
+     */
+    public int randomEnemyLeft() {
+        int span = screenW - enemyW + 1;
+        if (span <= 0)
+            return 0;
+        return rand.nextInt(span);
+    }
+
     public int getEnemyHeight() {
         return enemyH;
     }
@@ -498,7 +509,7 @@ public class GameVariables implements Serializable {
             movePath[i] = (MovablePathImpl) moveImplFact.createMovableImpl(
                     "path", 0);
 
-            tempLeft = rand.nextInt((screenW - enemyW) - (enemyW) + 1);
+            tempLeft = randomEnemyLeft();
             enemyArray[i] = new Enemy(tempLeft, -enemyH, tempLeft + enemyW,
                     0, speedModifier);
 

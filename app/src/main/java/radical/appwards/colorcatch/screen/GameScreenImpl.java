@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -163,6 +167,15 @@ public class GameScreenImpl implements Screen {
                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
                             message, Snackbar.LENGTH_SHORT);
                     snackbar.getView().setBackgroundColor(snackbarColor);
+                    TextView text = snackbar.getView().findViewById(
+                            com.google.android.material.R.id.snackbar_text);
+                    if (text != null) {
+                        ViewGroup.LayoutParams lp = text.getLayoutParams();
+                        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        text.setLayoutParams(lp);
+                        text.setGravity(Gravity.CENTER);
+                        text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    }
                     snackbar.show();
                 });
 

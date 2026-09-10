@@ -148,7 +148,7 @@ public class Level01Impl implements Level {
 					gv.movePath[i] = (MovablePathImpl) gv.moveImplFact
 							.createMovableImpl("path", 0);
 
-					gv.tempLeft = gv.rand.nextInt((gv.screenW - gv.enemyW) - (gv.enemyW) + 1);
+					gv.tempLeft = gv.randomEnemyLeft();
 					gv.enemyArray[i] = new Enemy(gv.tempLeft, -gv.enemyH, gv.tempLeft
 							+ gv.enemyW, 0, gv.speedModifier);
 
