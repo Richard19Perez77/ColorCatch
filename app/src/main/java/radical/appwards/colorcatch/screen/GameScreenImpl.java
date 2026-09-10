@@ -99,7 +99,8 @@ public class GameScreenImpl implements Screen {
             checkColorMatch(context, canvas);
 
             // check for new radical.appwards.colorcatch.level if not radical.appwards.colorcatch.game over
-            if (gv.gameTimer == gv.getNewLevel()) {
+            if (gv.gameTimer >= gv.getNewLevel()) {
+                gv.gameTimer = 0;
                 gv.setEnemyCreation(false);
                 gv.incCurrentLevel();
                 // switch to next radical.appwards.colorcatch.level if possible
