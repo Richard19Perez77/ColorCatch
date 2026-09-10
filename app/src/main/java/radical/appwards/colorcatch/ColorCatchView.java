@@ -58,11 +58,8 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message m) {
-            int viz = m.getData().getInt("viz");
-            if (viz == 0)
-                mStatusText.setVisibility(View.VISIBLE);
-            else
-                mStatusText.setVisibility(View.INVISIBLE);
+            int viz = m.getData().getInt("viz", View.VISIBLE);
+            mStatusText.setVisibility(viz);
 
             mStatusText.setText(m.getData().getString("text"));
 
@@ -415,8 +412,7 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
                     Message msg = mHandler.obtainMessage();
                     Bundle b = new Bundle();
                     b.putString("text", str.toString());
-                    b.putInt("" +
-                            "", View.VISIBLE);
+                    b.putInt("viz", View.VISIBLE);
                     msg.setData(b);
                     mHandler.sendMessage(msg);
                 }
