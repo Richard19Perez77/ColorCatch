@@ -227,7 +227,9 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         synchronized (getThread().getSurfaceHolder()) {
-            performClick();
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                performClick();
+            }
             if (mStatusText.isShown()) {
                 mStatusText.setVisibility(INVISIBLE);
 
