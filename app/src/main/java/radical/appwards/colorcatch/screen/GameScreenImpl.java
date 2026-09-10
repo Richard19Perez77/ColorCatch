@@ -1,5 +1,15 @@
 package radical.appwards.colorcatch.screen;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.view.MotionEvent;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+
 import radical.appwards.colorcatch.R;
 import radical.appwards.colorcatch.audio.Audio;
 import radical.appwards.colorcatch.background.GameScreenBackground;
@@ -7,17 +17,6 @@ import radical.appwards.colorcatch.level.Level;
 import radical.appwards.colorcatch.level.LevelFactory;
 import radical.appwards.colorcatch.logic.GameLogic;
 import radical.appwards.colorcatch.variables.GameVariables;
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.view.MotionEvent;
-import android.widget.TextView;
-
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A class to define the Game Screen of color catch.
@@ -27,20 +26,25 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class GameScreenImpl implements Screen {
 
-    private GameVariables gv;
-    private GameLogic gl;
-    private GameScreenBackground bg;
-    private LevelFactory lf = new LevelFactory();
+    private final GameVariables gv;
+    private final GameLogic gl;
+    private final GameScreenBackground bg;
+    private final LevelFactory lf;
+
+    {
+        new LevelFactory();
+    }
+
     private Level level;
-    private int levels = GameVariables.LEVELS;
+    private final int levels = GameVariables.LEVELS;
     private static final int POINT = 3;
-    private CoordinatorLayout coordinatorLayout;
+    private final CoordinatorLayout coordinatorLayout;
 
     /**
-     * If the radical.appwards.colorcatch.game has just continued create the radical.appwards.colorcatch.level it left off at. If in debug mode for a particular radical.appwards.colorcatch.level skip to it.
+     * If the radical.appwards.colorcatch.game has just continued to create the radical.appwards.colorcatch.level it left off at. If in debug mode for a particular radical.appwards.colorcatch.level skip to it.
      */
     public GameScreenImpl(final Context context) {
-        coordinatorLayout = (CoordinatorLayout) ((Activity) context).findViewById(R.id.coordinator_layout);
+        coordinatorLayout = ((Activity) context).findViewById(R.id.coordinator_layout);
         gv = GameVariables.getInstance();
         bg = new GameScreenBackground();
         gl = new GameLogic();

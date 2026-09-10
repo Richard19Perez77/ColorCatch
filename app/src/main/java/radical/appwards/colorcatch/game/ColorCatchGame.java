@@ -1,22 +1,20 @@
 package radical.appwards.colorcatch.game;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+
 import radical.appwards.colorcatch.audio.Audio;
 import radical.appwards.colorcatch.screen.Screen;
 import radical.appwards.colorcatch.screen.ScreenFactory;
 import radical.appwards.colorcatch.variables.GameVariables;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 
 /**
  * A class that defines how ColorCatch is played.
  *
  * @author Rick
  */
-
 public class ColorCatchGame {
 
     private final Context context;
@@ -25,11 +23,11 @@ public class ColorCatchGame {
      * Game Variables are used to store date in a static class that any class
      * can access.
      */
-    private GameVariables gv = GameVariables.getInstance();
+    private final GameVariables gv = GameVariables.getInstance();
     /**
      * The Screen Factory creates the loading, menu or radical.appwards.colorcatch.game radical.appwards.colorcatch.screen.
      */
-    private ScreenFactory screenFactory = new ScreenFactory();
+    private final ScreenFactory screenFactory = new ScreenFactory();
     /**
      * The current radical.appwards.colorcatch.game radical.appwards.colorcatch.screen.
      */
@@ -72,8 +70,7 @@ public class ColorCatchGame {
     }
 
     /**
-     * I added setting the touch coordinates here so that I avoid any radical.appwards.colorcatch.game radical.appwards.colorcatch.logic
-     * in the View or Activity class.
+     * I added setting the touch coordinates here so that I avoid any radical.appwards.colorcatch.game radical.appwards.colorcatch.logic in the View or Activity class.
      */
     public void setNewOnTouchCoords(int x, int y) {
         gv.newX = x;
@@ -85,13 +82,12 @@ public class ColorCatchGame {
             gv.movePlayerToPoint();
         }
 
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-
-        }
+        event.getAction();
 
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             gv.movePlayerToPoint();
         }
+
         // radical.appwards.colorcatch.screen specific action events, such as end radical.appwards.colorcatch.game drawing for fun.
         screen.eventAction(event);
     }

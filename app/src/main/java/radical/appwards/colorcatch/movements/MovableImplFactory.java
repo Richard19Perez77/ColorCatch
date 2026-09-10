@@ -8,6 +8,7 @@ package radical.appwards.colorcatch.movements;
  */
 public class MovableImplFactory {
 
+	// todo implement enum for strings so its type safe
 	public Movable createMovableImpl(String type, int s) {
 		type = type.toLowerCase();
 		if (type.equals("leftdown"))

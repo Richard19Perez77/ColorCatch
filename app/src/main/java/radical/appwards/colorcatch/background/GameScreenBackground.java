@@ -20,11 +20,11 @@ public class GameScreenBackground {
     /**
      * Used to get the games radical.appwards.colorcatch.screen radical.appwards.colorcatch.variables.
      */
-    private GameVariables gv;
-    private ArrayList<MyShapeMovable> myShapes;
+    private final GameVariables gv;
+    private final ArrayList<MyShapeMovable> myShapes;
     private MyShapeMovable myShape;
     private final int SHAPES = 3;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     public GameScreenBackground() {
         gv = GameVariables.getInstance();
@@ -36,8 +36,9 @@ public class GameScreenBackground {
     }
 
     /**
-     * Used to draw the shapes on radical.appwards.colorcatch.screen. Each shape has a draw method to define
-     * how its to be drawn.
+     * Used to draw the shapes on radical.appwards.colorcatch.screen.
+     *
+     * Each shape has a draw method to define how it's to be drawn.
      *
      * @param canvas The canvas to draw on.
      */
@@ -51,9 +52,9 @@ public class GameScreenBackground {
     }
 
     /**
-     * Updates the physics of each shape. Movement is easy, but transforming
-     * gradients can cause slowdown. Threading off this main activity thread
-     * helps but has been troublesome.
+     * Updates the physics of each shape. Movement is easy, but transforming gradients can cause slowdown.
+     * <p>
+     * Threading off this main activity thread helps but has been troublesome.
      */
     public void updatePhysics() {
         for (MyShapeMovable m : myShapes) {
@@ -79,16 +80,16 @@ public class GameScreenBackground {
     }
 
     /**
-     * A class that defines a shape that can be moved on the canvas. Each shape
-     * has a randomly generated size and a shading gradient.
+     * A class that defines a shape that can be moved on the canvas. Each shape has a randomly generated size and a shading gradient.
      *
      * @author Rick
      */
     class MyShapeMovable {
-        private Paint circlePaint = new Paint();
-        private int x, y, r;
-        // private int colora, colorb;
-        private int speed;
+        private final Paint circlePaint = new Paint();
+        private int x;
+        private final int y;
+        private final int r;
+        private final int speed;
 
         public MyShapeMovable() {
             x = rand.nextInt(gv.screenW);
@@ -108,8 +109,7 @@ public class GameScreenBackground {
         }
 
         /**
-         * Move the object to the left untill offscreen and reset it on the
-         * right.
+         * Move the object to the left until offscreen and reset it on the right.
          */
         public void updatePhysics() {
             x -= speed;

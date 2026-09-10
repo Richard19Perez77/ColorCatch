@@ -43,7 +43,7 @@ public class Level03Impl implements Level {
 		canvas.drawText("Level 3", gv.screenW / 2, gv.whitePaint.getTextSize(),
 				gv.whitePaintCenterAlign);
 		canvas.drawText("Misses: " + gv.getHealth() + " ", gv.screenW,
-				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAlinged());
+				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAligned());
 
 		if (gv.getGameVarsLoaded())
 			gd.myDraw(canvas);
@@ -73,7 +73,7 @@ public class Level03Impl implements Level {
 				gl.createSingleEnemyBlock();
 
 			if (gv.gameTimer % gv.getLevelBreak() == 0) {
-				gv.incEnemyArraySpeeed();
+				gv.incEnemyArraySpeed();
 			}
 		}
 	}

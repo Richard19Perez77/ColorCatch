@@ -14,14 +14,14 @@ import android.util.SparseIntArray;
 import android.widget.Toast;
 
 /**
- * A class that will run the radical.appwards.colorcatch.logic for the sounds in the radical.appwards.colorcatch.game. I made this a
- * static class so that the radical.appwards.colorcatch.audio can be changed and recored anywhere in the
- * app. I also use it to get the app context anywhere which is very handy when
- * in classes not from the main activity.
+ * A class that will run the radical.appwards.colorcatch.logic for the sounds in the radical.appwards.colorcatch.game.
+ * <p>
+ * I made this a static class so that the radical.appwards.colorcatch.audio can be changed and recorded anywhere in the app.
+ * <p>
+ * I also use it to get the app context anywhere which is very handy when in classes not from the main activity.
  *
  * @author Rick
  */
-
 public class Audio implements MediaPlayer.OnPreparedListener {
 
     // create one var of the type it is.
@@ -33,17 +33,15 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     private float prevVolume = 1;
     private float currVolume = 1;
     private SparseIntArray soundsMap;
-    private AudioManager mgr;
     private static final int HIT = 1, MISS = 2, POINT = 3;
     public int stoppedAt;
-    private boolean musicOn = false, soundOn = false, musicResumed;
+    private boolean musicOn = true, soundOn = true, musicResumed;
     private Uri path;
     public int level;
     private boolean resuming;
 
     /**
-     * Singleton radical.appwards.colorcatch.objects needs private constructor that will help ensure the
-     * class is created outside of the class.
+     * Singleton radical.appwards.colorcatch.objects needs private constructor that will help ensure the class is created outside the class.
      */
     private Audio() {
     }
@@ -67,8 +65,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     }
 
     /**
-     * musicResumed is used to flag when resuming the radical.appwards.colorcatch.game so it doesn't start
-     * the track over at radical.appwards.colorcatch.game continue.
+     * musicResumed is used to flag when resuming the radical.appwards.colorcatch.game so it doesn't start the track over at radical.appwards.colorcatch.game continue.
      */
     public void playMenu(Context context) {
         if (!musicResumed) {
@@ -83,9 +80,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
                 mp.setVolume(currVolume, currVolume);
                 mp.setOnPreparedListener(this);
                 mp.prepareAsync();
-            } catch (IllegalStateException | IllegalArgumentException | IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IllegalStateException | IllegalArgumentException | IOException ignored) {}
         }
     }
 
@@ -112,9 +107,10 @@ public class Audio implements MediaPlayer.OnPreparedListener {
     /**
      * Used to toggle sound effects on/off.
      */
-    public void toggleSound() {
-        //if its already ! it turns true, if true it turns !
+    public void toggleSound(Context context) {
         soundOn = !soundOn;
+        Toast.makeText(context, soundOn ? "Sound FX ON" : "Sound FX OFF",
+                Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -142,16 +138,12 @@ public class Audio implements MediaPlayer.OnPreparedListener {
             mp.setOnPreparedListener(this);
             mp.prepareAsync();
             musicResumed = true;
-        } catch (IllegalStateException | IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IllegalStateException | IllegalArgumentException | IOException ignored) {}
     }
 
     /**
      * Used to load and start the media player. If not done here it will be done
-     * on the main radical.appwards.colorcatch.game thread and it will cause about a 1 second hiccup.
+     * on the main radical.appwards.colorcatch.game thread, and it will cause about a 1-second hiccup.
      */
     @Override
     public void onPrepared(MediaPlayer mp) {
@@ -179,11 +171,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
                 mp.setVolume(currVolume, currVolume);
                 mp.setOnPreparedListener(this);
                 mp.prepareAsync();
-            } catch (IllegalStateException | IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IllegalStateException | IllegalArgumentException | IOException ignored) {}
         }
         musicResumed = false;
     }
@@ -202,11 +190,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
             mp.setVolume(currVolume, currVolume);
             mp.setOnPreparedListener(this);
             mp.prepareAsync();
-        } catch (IllegalStateException | IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IllegalStateException | IllegalArgumentException | IOException ignored) {}
     }
 
     /**
@@ -223,13 +207,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
             mp.setVolume(currVolume, currVolume);
             mp.setOnPreparedListener(this);
             mp.prepareAsync();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IllegalStateException | IllegalArgumentException | IOException ignored) {}
     }
 
     /**
@@ -240,7 +218,7 @@ public class Audio implements MediaPlayer.OnPreparedListener {
      */
     public void playSound(Context context, int sound) {
         // plays the sounds effect called
-        mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         float streamVolumeCurrent = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
         float streamVolumeMax = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         if (soundOn) {

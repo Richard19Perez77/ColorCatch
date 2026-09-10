@@ -1,7 +1,5 @@
 package radical.appwards.colorcatch;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -11,8 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import radical.appwards.colorcatch.audio.Audio;
 import radical.appwards.colorcatch.database.SaveStateDb;
@@ -42,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
     Audio audio = Audio.getInstance();
 
     /**
-     * Saving the state of the application in a radical.appwards.colorcatch.database enables recreation of
-     * the state at the time of the applications closing
+     * Saving the state of the application in a radical.appwards.colorcatch.database enables recreation of the state at the time of the applications closing
      */
     private SaveStateDb stateDb;
 
     /**
-     * Called a the start of the application and carries a saved instance state,
-     * this state is only short lived though.
+     * Called at the start of the application and carries a saved instance state, this state is only short-lived though.
      */
     @SuppressWarnings("deprecation")
     @Override
@@ -60,12 +56,11 @@ public class MainActivity extends AppCompatActivity {
         // create new sound radical.appwards.colorcatch.objects
         audio.mp = new MediaPlayer();
         audio.sp = new SoundPool(20, AudioManager.STREAM_MUSIC, 100);
-        // create a new view and thread that will run the draw and update
-        // physics methods.
-        colorCatchView = (ColorCatchView) findViewById(R.id.color);
+        // create a new view and thread that will run the draw and update physics methods.
+        colorCatchView = findViewById(R.id.color);
         gameThread = colorCatchView.getThread();
-        colorCatchView.setTextView((TextView) findViewById(R.id.text));
-        colorCatchView.setButtonView((Button) findViewById(R.id.begin));
+        colorCatchView.setTextView(findViewById(R.id.text));
+        colorCatchView.setButtonView(findViewById(R.id.begin));
 
         stateDb = new SaveStateDb();
 
@@ -76,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
      * Called when the start button in the radical.appwards.colorcatch.game menu is pressed.
      *
      * @param v The view that the button lives in at the time of being
-     *          pressed. Views are used to contruct the interface shown to the
+     *          pressed. Views are used to contract the interface shown to the
      *          user.
      */
     public void startGame(View v) {
@@ -84,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Creates the menu items on the cell phone. This is helpful in full radical.appwards.colorcatch.screen
-     * graphics applications like this where the entire view is being drawn on
-     * with a canvas. Newer Android versions like JellyBean are using tab and
-     * swipe and encouraging not using a hidden menu like this. But for full
-     * radical.appwards.colorcatch.screen games its stil handy.
+     * Creates the menu items on the cell phone. This is helpful in full radical.appwards.colorcatch.screen graphics applications like this where the entire view is being drawn on with a canvas.
+     * <p>
+     * Newer Android versions like JellyBean are using tab and swipe and encouraging not using a hidden menu like this.
+     * <p>
+     * But for full radical.appwards.colorcatch.screen games It's still handy.
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,10 +99,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * For every item added in the menu there should be something it does. I use
-     * it to return to the menu and restart the radical.appwards.colorcatch.game or to pause the radical.appwards.colorcatch.game or to
-     * adjust the sound settings with seperate options to toggle music and/or
-     * sound.
+     * For every item added in the menu there should be something it does.
+     * <p>
+     * I use it to return to the menu and restart the radical.appwards.colorcatch.game or to pause the radical.appwards.colorcatch.game or to adjust the sound settings with separate options to toggle music and/or sound.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 audio.toggleMusic(getApplicationContext());
                 return true;
             case SOUND_TOGGLE:
-                audio.toggleSound();
+                audio.toggleSound(getApplicationContext());
                 return true;
             case MUSIC_LINK:
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(music));
@@ -156,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Called after re-establishing the application and its ready to go again.
-     * This is actually the last thing the app runs before continuing running
-     * the app, not the first thing when returning.
+     * Called after re-establishing the application, and It's ready to go again.
+     * <p>
+     * This is actually the last thing the app runs before continuing running the app, not the first thing when returning.
      */
     @Override
     protected void onResume() {
@@ -167,18 +161,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             if (GameVariables.ACCESS_SAVE_DB)
                 stateDb.getState(getApplicationContext());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (ClassNotFoundException ignored) {}
 
         audio.resumeAudio(getApplicationContext());
     }
 
     /**
-     * When the application is destroyed it might still live in memory but when
-     * re-opened it will always re start from the beginning of the application
-     * as a new instance. Memory intensive resources should be released so they
-     * don't waste the phone's battery.
+     * When the application is destroyed it might still live in memory but when re-opened it will always re-start from the beginning of the application as a new instance.
+     * <p>
+     * Memory intensive resources should be released so they don't waste the phone's battery.
      */
     @Override
     protected void onDestroy() {

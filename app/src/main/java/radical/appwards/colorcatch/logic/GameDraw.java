@@ -5,27 +5,24 @@ import android.graphics.Canvas;
 import radical.appwards.colorcatch.variables.GameVariables;
 
 /**
- * A class that helps define different radical.appwards.colorcatch.game draw radical.appwards.colorcatch.logic at different levels and
- * at end radical.appwards.colorcatch.game. Also draws the player, enemy and shield radical.appwards.colorcatch.objects.
+ * A class that helps define different radical.appwards.colorcatch.game draw radical.appwards.colorcatch.logic at different levels and at end radical.appwards.colorcatch.game.
+ * <p>
+ * Also draws the player, enemy and shield radical.appwards.colorcatch.objects.
  * 
  * @author Rick
- * 
  */
-
 public class GameDraw {
 
-	private GameVariables gv;
+	private final GameVariables gv;
 
 	public GameDraw() {
 		gv = GameVariables.getInstance();
 	}
 
 	/**
-	 * Every on touch call at end radical.appwards.colorcatch.game draws a new color square as if drawing
-	 * with squares.
+	 * Every on touch call at end radical.appwards.colorcatch.game draws a new color square as if drawing with squares.
 	 * 
-	 * @param canvas
-	 *            The object the squares are drawn on.
+	 * @param canvas The object the squares are drawn on.
 	 */
 	public void myEndDraw(Canvas canvas) {
 		// for each x and y draw a square of a color

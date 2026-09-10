@@ -5,16 +5,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 
 /**
- * A class to create the loading radical.appwards.colorcatch.screen radical.appwards.colorcatch.background. I use the radical.appwards.colorcatch.game radical.appwards.colorcatch.variables to
- * get the radical.appwards.colorcatch.screen size.
+ *
+ * A class to create the loading radical.appwards.colorcatch.screen radical.appwards.colorcatch.background.
+ * <p>
+ * I use the radical.appwards.colorcatch.game radical.appwards.colorcatch.variables to get the radical.appwards.colorcatch.screen size.
  * 
  * @author Rick
- * 
  */
 
 public class LoadingScreenBackground {
 
-	private GameVariables gv;
+	private final GameVariables gv;
 
 	public LoadingScreenBackground() {
 		gv = GameVariables.getInstance();

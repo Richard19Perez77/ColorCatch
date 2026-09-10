@@ -43,7 +43,7 @@ public class Level05Impl implements Level {
 		canvas.drawText("Level 5", gv.screenW / 2, gv.whitePaint.getTextSize(),
 				gv.whitePaintCenterAlign);
 		canvas.drawText("Misses: " + gv.getHealth() + " ", gv.screenW,
-				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAlinged());
+				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAligned());
 
 		if (gv.getGameVarsLoaded())
 			gd.myDraw(canvas);
@@ -77,7 +77,7 @@ public class Level05Impl implements Level {
 			}
 
 			if (gv.gameTimer % gv.getLevelBreak() == 0) {
-				gv.incEnemyArraySpeeed();
+				gv.incEnemyArraySpeed();
 				if (createEnemyTimer > 5)
 					createEnemyTimer -= 5;
 			}

@@ -18,11 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 /**
- * The class that creates the view to be seen and the thread to update the view
- * as well as draw the radical.appwards.colorcatch.objects to be shown. Most important for the radical.appwards.colorcatch.game radical.appwards.colorcatch.logic is
- * the doDraw and updatePhysics methods for the Game, as well as the onTouch
- * event handling.
+ * The class that creates the view to be seen and the thread to update the view as well as draw the radical.appwards.colorcatch.objects to be shown.
+ * <p>
+ * Most important for the radical.appwards.colorcatch.game radical.appwards.colorcatch.logic is the doDraw and updatePhysics methods for the Game, as well as the onTouch event handling.
  *
  * @author Rick Perez
  */
@@ -44,7 +45,7 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
     /**
      * The radical.appwards.colorcatch.game radical.appwards.colorcatch.logic of Color Catch.
      */
-    private ColorCatchGame colorCatch;
+    private final ColorCatchGame colorCatch;
 
     /***
      * allows for saving of radical.appwards.colorcatch.variables across classes
@@ -53,7 +54,7 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
 
     Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public boolean handleMessage(Message m) {
+        public boolean handleMessage(@NonNull Message m) {
             int viz = m.getData().getInt("viz");
             if (viz == 0)
                 mStatusText.setVisibility(View.VISIBLE);
@@ -192,9 +193,7 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
             try {
                 thread.join();
                 retry = false;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException ignored) {}
         }
     }
 
@@ -287,9 +286,9 @@ public class ColorCatchView extends SurfaceView implements SurfaceHolder.Callbac
 
         private final SurfaceHolder mSurfaceHolder;
 
-        private Handler mHandler;
+        private final Handler mHandler;
 
-        private Context context;
+        private final Context context;
 
         GameThread(SurfaceHolder surfaceHolder, Context c,
                    Handler handler) {

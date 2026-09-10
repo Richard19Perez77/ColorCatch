@@ -8,11 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Called to store the radical.appwards.colorcatch.game state, currently doesn't store all radical.appwards.colorcatch.objects just
- * player data, place and health.
+ * Called to store the radical.appwards.colorcatch.game state, currently doesn't store all radical.appwards.colorcatch.objects just player data, place and health.
  * 
  * @author Rick
- * 
  */
 
 public class SaveStateDb {
@@ -76,14 +74,14 @@ public class SaveStateDb {
 		}
 	}
 
-	public boolean getState(Context context) throws  ClassNotFoundException {
+	public void getState(Context context) throws  ClassNotFoundException {
 
 		gv = GameVariables.getInstance();
 
 		try {
 
 			stateDB = context.openOrCreateDatabase(DATABASE_NAME,
-					SQLiteDatabase.CREATE_IF_NECESSARY, null);
+					Context.MODE_PRIVATE, null);
 
 			stateDB.execSQL("CREATE TABLE IF NOT EXISTS " + STATE_TABLE + " ("
 					+ COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_LEVEL
@@ -123,7 +121,6 @@ public class SaveStateDb {
 				stateDB.close();
 			}
 		}
-		return true;
 	}
 
 	/**

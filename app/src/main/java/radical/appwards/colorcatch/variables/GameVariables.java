@@ -27,7 +27,7 @@ public class GameVariables implements Serializable {
 
     // set to true to quick play to a certain radical.appwards.colorcatch.level
     public boolean DEBUG_MODE = false;
-    // set the leve to play at first, you might have to restart for it to take
+    // set the level to play at first, you might have to restart for it to take
     // effect and by pass radical.appwards.colorcatch.database continue
     public int DEBUG_LEVEL = 8;
 
@@ -41,7 +41,7 @@ public class GameVariables implements Serializable {
     public int LEVEL_BREAK = NEW_LEVEL / 5;
     public int INTRO_PAUSE_TIME = NEW_LEVEL / 15;
 
-    public static final long serialVersionUID = -5881459669528802675L;
+    private static final long serialVersionUID = -5881459669528802675L;
 
     private volatile static GameVariables instance;
 
@@ -64,7 +64,7 @@ public class GameVariables implements Serializable {
             whiteFillPaint = new Paint(), blackBoldPaint = new Paint(),
             yellowBoldPaint = new Paint();
 
-    private Paint targetPaint = new Paint();
+    private final Paint targetPaint = new Paint();
     public DisplayMetrics metrics;
     public long gameTimer, score = 0;
     public Player player;
@@ -261,7 +261,7 @@ public class GameVariables implements Serializable {
         return levelEnemies;
     }
 
-    public void incEnemyArraySpeeed() {
+    public void incEnemyArraySpeed() {
         for (int i = 0; i < levelEnemies; i++) {
             enemyArray[i].incSpeed();
         }
@@ -359,7 +359,7 @@ public class GameVariables implements Serializable {
         return targetPaint;
     }
 
-    public Paint getWhitePaintRightAlinged() {
+    public Paint getWhitePaintRightAligned() {
         return whitePaintRightAligned;
     }
 
@@ -511,7 +511,7 @@ public class GameVariables implements Serializable {
                     "path", 0);
 
             tempLeft = rand.nextInt((screenW - enemyW) - (enemyW) + 1);
-            enemyArray[i] = new Enemy(tempLeft, 0 - enemyH, tempLeft + enemyW,
+            enemyArray[i] = new Enemy(tempLeft, -enemyH, tempLeft + enemyW,
                     0, speedModifier);
 
             switch (i % 3) {

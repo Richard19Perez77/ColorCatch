@@ -45,7 +45,7 @@ public class Level10Impl implements Level {
 		canvas.drawText("Level 10", gv.screenW / 2,
 				gv.whitePaint.getTextSize(), gv.whitePaintCenterAlign);
 		canvas.drawText("Misses: " + gv.getHealth() + " ", gv.screenW,
-				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAlinged());
+				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAligned());
 
 		int top = gv.screenH / 2 - gv.getEnemyHeight() / 2;
 		int left = gv.screenW / 2 - gv.getEnemyWidth() / 2;
@@ -85,7 +85,7 @@ public class Level10Impl implements Level {
 			}
 
 			if (gv.gameTimer % gv.getLevelBreak() == 0) {
-				gv.incEnemyArraySpeeed();
+				gv.incEnemyArraySpeed();
 			}
 
 		}

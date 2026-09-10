@@ -1,15 +1,14 @@
 package radical.appwards.colorcatch.database;
 
-import radical.appwards.colorcatch.variables.GameVariables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * A class to save the high score radical.appwards.colorcatch.database. Currently only the highest score is
- * returned for display but an array list of all scores can be created and
- * returned to form a table of scores.
+ * A class to save the high score radical.appwards.colorcatch.database.
+ * <p>
+ * Currently only the highest score is returned for display but an array list of all scores can be created and returned to form a table of scores.
  * 
  * @author Rick
  * 
@@ -21,10 +20,9 @@ public class MyDb {
 	private static final String HIGH_SCORE_TABLE = "highscore";
 	private static final String COLUMN_ID = "ID";
 	private static final String COLUMN_SCORE = "SCORE";
-	private String highScore;
+	private final String highScore;
 
 	public MyDb(Context context, long newScore) {
-		GameVariables gv = GameVariables.getInstance();
 		SQLiteDatabase scoreDB = context.openOrCreateDatabase(DATABASE_NAME,
 				Context.MODE_PRIVATE, null);
 		scoreDB.execSQL("CREATE TABLE IF NOT EXISTS " + HIGH_SCORE_TABLE + " ("

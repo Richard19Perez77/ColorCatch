@@ -19,10 +19,11 @@ import radical.appwards.colorcatch.variables.GameVariables;
 
 public class LevelEndingImpl implements Level {
 
-    private GameVariables gv;
-    private GameDraw gd;
-    private String radical, music;
-    private String highScore;
+    private final GameVariables gv;
+    private final GameDraw gd;
+    private final String radical;
+    private final String music;
+    private final String highScore;
 
     public LevelEndingImpl(Context context) {
         MyDb myDb;
@@ -30,8 +31,8 @@ public class LevelEndingImpl implements Level {
         gd = new GameDraw();
         gv.gameVarsAreLoading = false;
         gv.setGameVarsLoaded(false);
-        radical = "Radical\u2605Appwards";
-        music = "\u2669pinklogik.bandcamp.com\u2669";
+        radical = "Radical★Appwards";
+        music = "♩pinklogik.bandcamp.com♩";
         myDb = new MyDb(context, gv.score);
         highScore = myDb.getHighScore();
     }
@@ -77,6 +78,10 @@ public class LevelEndingImpl implements Level {
      */
     @Override
     public void updatePhysics(Context context) {
+        // todo extract wait section does this mean make it early return on this? this is complex
+        // if (!gv.getGameVarsLoaded()) {
+        //    return
+        // }
         if (!gv.gameVarsAreLoading) {
             loadLevelEndObjects();
         } else if (!gv.getGameVarsLoaded()) {

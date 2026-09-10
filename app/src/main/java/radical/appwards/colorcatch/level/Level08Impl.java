@@ -45,7 +45,7 @@ public class Level08Impl implements Level {
 		canvas.drawText("Level 8", gv.screenW / 2, gv.whitePaint.getTextSize(),
 				gv.whitePaintCenterAlign);
 		canvas.drawText("Misses: " + gv.getHealth() + " ", gv.screenW,
-				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAlinged());
+				gv.whitePaint.getTextSize(), gv.getWhitePaintRightAligned());
 
 		//create center square for constant random paint
 		int top = gv.screenH / 2 - gv.getEnemyHeight() / 2;

@@ -18,19 +18,20 @@ import radical.appwards.colorcatch.variables.GameVariables;
 
 /**
  * A class to help define the radical.appwards.colorcatch.game radical.appwards.colorcatch.logic such as interactions between radical.appwards.colorcatch.objects.
+ * <p>
  * Helps organize how radical.appwards.colorcatch.objects are stored when stores as a grouping of radical.appwards.colorcatch.objects.
  * 
  * @author Rick Perez
- * 
  */
-
 public class GameLogic {
 
-	private GameVariables gv;
-	private Random rand;
-	private int tempTop, decHealth, acc;
+	private final GameVariables gv;
+	private final Random rand;
+	private int tempTop;
+    private final int decHealth;
+    private int acc;
 	private static final int HIT = 1, MISS = 2;
-	private MultipleBlockEnemy multiBlock;
+	private final MultipleBlockEnemy multiBlock;
 	private MovablePathImpl pathImpl;
 
 	public GameLogic() {

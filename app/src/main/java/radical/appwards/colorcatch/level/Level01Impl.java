@@ -27,14 +27,13 @@ import android.os.Process;
 
 public class Level01Impl implements Level {
 
-	private GameVariables gv;
-	private GameLogic gl;
-	private GameDraw gd;
+	private final GameVariables gv;
+	private final GameLogic gl;
+	private final GameDraw gd;
 	/**
 	 * Used to time when to create new squares.
 	 */
 	private int createEnemyTimer;
-	private boolean hintDisplayed;
 
 	public Level01Impl() {
 		gv = GameVariables.getInstance();
@@ -43,7 +42,6 @@ public class Level01Impl implements Level {
 		gv.setGameVarsLoaded(false);
 		gd = new GameDraw();
 		createEnemyTimer = 20;
-		hintDisplayed = false;
 	}
 
 	/**
@@ -55,7 +53,7 @@ public class Level01Impl implements Level {
 		canvas.drawText("Level 1", gv.screenW / 2, gv.whitePaint
 				.getTextSize(), gv.whitePaintCenterAlign);
 		canvas.drawText("Misses: " + gv.getHealth() + " ", gv.screenW, gv
-				.whitePaint.getTextSize(), gv.getWhitePaintRightAlinged());
+				.whitePaint.getTextSize(), gv.getWhitePaintRightAligned());
 
 		if (gv.getGameVarsLoaded())
 			gd.myDraw(canvas);
@@ -90,7 +88,7 @@ public class Level01Impl implements Level {
 
 			if (gv.gameTimer % gv.getLevelBreak() == 0
 					&& gv.getGameVarsLoaded()) {
-				gv.incEnemyArraySpeeed();
+				gv.incEnemyArraySpeed();
 				if (createEnemyTimer > 5)
 					createEnemyTimer -= 5;
 			}
@@ -152,7 +150,7 @@ public class Level01Impl implements Level {
 							.createMovableImpl("path", 0);
 
 					gv.tempLeft = gv.rand.nextInt((gv.screenW - gv.enemyW) - (gv.enemyW) + 1);
-					gv.enemyArray[i] = new Enemy(gv.tempLeft, 0 - gv.enemyH, gv.tempLeft
+					gv.enemyArray[i] = new Enemy(gv.tempLeft, -gv.enemyH, gv.tempLeft
 							+ gv.enemyW, 0, gv.speedModifier);
 
 					switch (i % 3) {
