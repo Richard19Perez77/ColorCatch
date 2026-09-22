@@ -10,7 +10,8 @@ import kotlin.math.exp
 /**
  * One extra Color banner travels right and wraps. It keeps speeding up and
  * fading until it is nearly invisible, then reappears and starts again.
- * The centered Color and Catch titles stay put in MenuScreenImpl.
+ * A dim shadow sits behind it and shows where the word is as the bright
+ * text fades. The centered Color and Catch titles stay put in MenuScreenImpl.
  */
 class MenuTitleBurst {
 
@@ -22,6 +23,7 @@ class MenuTitleBurst {
 
     private val wordFill = Paint(Paint.ANTI_ALIAS_FLAG)
     private val wordOutline = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val wordShadow = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private var lastMs = 0L
     private var screenW = 0
@@ -93,13 +95,30 @@ class MenuTitleBurst {
         fade: Float,
         redAmount: Float
     ) {
+        val color = blendYellowToRed(redAmount)
+        val shadowStrength = (1f - fade).coerceIn(0f, 1f)
+
+        wordShadow.set(fill)
+        wordShadow.color = darken(color, 0.45f)
+        wordShadow.alpha = (fill.alpha * shadowStrength).toInt().coerceIn(0, 255)
+        canvas.drawText(word, x + 8f, y + 12f, wordShadow)
+
         wordOutline.set(outline)
         wordFill.set(fill)
         wordOutline.alpha = (outline.alpha * fade).toInt().coerceIn(0, 255)
-        wordFill.color = blendYellowToRed(redAmount)
+        wordFill.color = color
         wordFill.alpha = (fill.alpha * fade).toInt().coerceIn(0, 255)
         canvas.drawText(word, x, y, wordOutline)
         canvas.drawText(word, x, y + 5f, wordFill)
+    }
+
+    private fun darken(color: Int, amount: Float): Int {
+        val keep = amount.coerceIn(0f, 1f)
+        return Color.rgb(
+            (Color.red(color) * keep).toInt(),
+            (Color.green(color) * keep).toInt(),
+            (Color.blue(color) * keep).toInt()
+        )
     }
 
     private fun blendYellowToRed(amount: Float): Int {

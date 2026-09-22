@@ -1,121 +1,76 @@
 package radical.appwards.colorcatch.background;
 
-import java.util.ArrayList;
-import java.util.Random;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.RadialGradient;
 
 import radical.appwards.colorcatch.variables.GameVariables;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 /**
- * A Class used to draw the radical.appwards.colorcatch.background of the radical.appwards.colorcatch.game when being played.
- *
- * @author Rick Perez
+ * The play screen uses the same pulsing radial as the opening.
  */
-
 public class GameScreenBackground {
 
-    /**
-     * Used to get the games radical.appwards.colorcatch.screen radical.appwards.colorcatch.variables.
-     */
     private final GameVariables gv;
-    private final ArrayList<MyShapeMovable> myShapes;
-    private MyShapeMovable myShape;
-    private final int SHAPES = 3;
-    private final Random rand = new Random();
+    private final Paint circlePaint = new Paint();
+    private final Matrix shaderMatrix = new Matrix();
+    private RadialGradient radialG;
+    private int x;
+    private int y;
+    private int startR;
+    private int endR;
+    private int r;
+    private boolean incR = true;
+    private boolean ready;
 
     public GameScreenBackground() {
         gv = GameVariables.getInstance();
-        myShapes = new ArrayList<>();
-        for (int i = 0; i < SHAPES; i++) {
-            myShape = new MyShapeMovable();
-            myShapes.add(myShape);
-        }
     }
 
-    /**
-     * Used to draw the shapes on radical.appwards.colorcatch.screen.
-     * <p>
-     * Each shape has a draw method to define how it's to be drawn.
-     *
-     * @param canvas The canvas to draw on.
-     */
     public void draw(Canvas canvas) {
+        ensureReady();
         canvas.drawColor(Color.BLACK);
-
-        for (MyShapeMovable m : myShapes) {
-            m.draw(canvas);
+        if (!ready) {
+            return;
         }
-
+        canvas.drawCircle(x, y, endR, circlePaint);
     }
 
-    /**
-     * Updates the physics of each shape. Movement is easy, but transforming gradients can cause slowdown.
-     * <p>
-     * Threading off this main activity thread helps but has been troublesome.
-     */
     public void updatePhysics() {
-        for (MyShapeMovable m : myShapes) {
-            m.updatePhysics();
+        ensureReady();
+        if (!ready) {
+            return;
+        }
+        if (r < startR) {
+            incR = true;
+        }
+        if (r > endR) {
+            incR = false;
+        }
+        if (incR) {
+            r += 7;
+        } else {
+            r -= 7;
+        }
+        if (startR > 0) {
+            shaderMatrix.setScale(r / (float) startR, r / (float) startR, x, y);
+            radialG.setLocalMatrix(shaderMatrix);
         }
     }
 
-    /**
-     * Called at each radical.appwards.colorcatch.level change to resize shapes and shading gradient.
-     */
-    public void refresh() {
-        myShapes.clear();
-        for (int i = 0; i < SHAPES; i++) {
-            myShape = new MyShapeMovable();
-            myShapes.add(myShape);
+    private void ensureReady() {
+        if (ready || gv.screenW <= 0 || gv.screenH <= 0) {
+            return;
         }
-    }
-
-    public void updateColors(int newColor) {
-        for (int i = 0; i < SHAPES; i++) {
-            myShapes.get(i).updateColor(newColor);
-        }
-    }
-
-    /**
-     * A class that defines a shape that can be moved on the canvas. Each shape has a randomly generated size and a shading gradient.
-     *
-     * @author Rick
-     */
-    class MyShapeMovable {
-        private final Paint circlePaint = new Paint();
-        private int x;
-        private final int y;
-        private final int r;
-        private final int speed;
-
-        public MyShapeMovable() {
-            x = rand.nextInt(gv.screenW);
-            y = rand.nextInt(gv.screenH);
-            r = rand.nextInt(gv.screenW / 2);
-
-            circlePaint.setColor(Color.WHITE);
-            speed = rand.nextInt(gv.getSpeedModifier()) + 1;
-        }
-
-        public void updateColor(int c) {
-            circlePaint.setColor(c);
-        }
-
-        public void draw(Canvas canvas) {
-            canvas.drawCircle(x, y, r, circlePaint);
-        }
-
-        /**
-         * Move the object to the left until offscreen and reset it on the right.
-         */
-        public void updatePhysics() {
-            x -= speed;
-            if (x + r < 0) {
-                x = gv.screenW + r;
-            }
-        }
+        x = gv.screenW / 2;
+        y = gv.screenH / 2;
+        startR = r = gv.screenH / 4;
+        endR = r * 4;
+        radialG = new RadialGradient(x, y, startR, Color.RED, Color.BLUE,
+                android.graphics.Shader.TileMode.CLAMP);
+        circlePaint.setShader(radialG);
+        ready = startR > 0;
     }
 }

@@ -30,7 +30,7 @@ public class Enemy implements Movable, Serializable {
 	}
 
 	public void draw(Canvas canvas) {
-		canvas.drawRect(movable.getRect(), paint);
+		GradientSquare.draw(canvas, movable.getRect(), paint.getColor());
 	}
 
 	@Override

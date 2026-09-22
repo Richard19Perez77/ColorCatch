@@ -3,6 +3,7 @@ package radical.appwards.colorcatch.level;
 import radical.appwards.colorcatch.logic.GameDraw;
 import radical.appwards.colorcatch.logic.GameLogic;
 import radical.appwards.colorcatch.objects.Enemy;
+import radical.appwards.colorcatch.objects.GradientSquare;
 import radical.appwards.colorcatch.variables.GameVariables;
 
 import android.content.Context;
@@ -61,7 +62,7 @@ public class Level10Impl implements Level {
 					gv.screenH / 2, gv.randPaint);
 		} else {
 			gv.setEnemyCreation(true);
-			canvas.drawRect(left, top, right, bottom, gv.randPaint);
+			GradientSquare.draw(canvas, left, top, right, bottom, gv.randPaint.getColor());
 		}
 	}
 

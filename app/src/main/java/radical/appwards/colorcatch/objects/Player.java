@@ -44,7 +44,7 @@ public class Player implements Serializable {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawRect(rect, paint);
+        GradientSquare.draw(canvas, rect, paint.getColor());
         canvas.drawRect(rect, outline);
     }
 

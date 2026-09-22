@@ -53,14 +53,14 @@ public class Shield implements Serializable {
 	}
 
 	public void draw(Canvas canvas, int jx1, int jy1, int jx2, int jy2,
-			Paint paint) {
-		canvas.drawRect(jx1 - shieldCount, jy1 - shieldCount, jx2
-				+ shieldCount, jy2 + shieldCount, paint);
+			Paint source) {
+		GradientSquare.draw(canvas, jx1 - shieldCount, jy1 - shieldCount, jx2
+				+ shieldCount, jy2 + shieldCount, source.getColor());
 	}
 
 	public void draw(Canvas canvas) {
-		canvas.drawRect(x - shieldCount, y - shieldCount, x2
-				+ shieldCount, y2 + shieldCount, paint);
+		GradientSquare.draw(canvas, x - shieldCount, y - shieldCount, x2
+				+ shieldCount, y2 + shieldCount, paint.getColor());
 	}
 
 	public void advance() {

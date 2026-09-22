@@ -2,6 +2,7 @@ package radical.appwards.colorcatch.logic;
 
 import android.graphics.Canvas;
 
+import radical.appwards.colorcatch.objects.GradientSquare;
 import radical.appwards.colorcatch.variables.GameVariables;
 
 /**
@@ -27,28 +28,24 @@ public class GameDraw {
 	public void myEndDraw(Canvas canvas) {
 		// for each x and y draw a square of a color
 		for (int i = 0; i < gv.getEnemyCount(); i++) {
+			int color;
 			switch (i % 4) {
 			case 0:
-				canvas.drawRect(gv.getXs(i), gv.getYs(i),
-						gv.getXs(i) + gv.getEnemyWidth(),
-						gv.getYs(i) + gv.getEnemyWidth(), gv.getGreenPaint());
+				color = gv.getGreenPaint().getColor();
 				break;
 			case 1:
-				canvas.drawRect(gv.getXs(i), gv.getYs(i),
-						gv.getXs(i) + gv.getEnemyWidth(),
-						gv.getYs(i) + gv.getEnemyWidth(), gv.getRedPaint());
+				color = gv.getRedPaint().getColor();
 				break;
 			case 2:
-				canvas.drawRect(gv.getXs(i), gv.getYs(i),
-						gv.getXs(i) + gv.getEnemyWidth(),
-						gv.getYs(i) + gv.getEnemyWidth(), gv.getBluePaint());
+				color = gv.getBluePaint().getColor();
 				break;
-			case 3:
-				canvas.drawRect(gv.getXs(i), gv.getYs(i),
-						gv.getXs(i) + gv.getEnemyWidth(),
-						gv.getYs(i) + gv.getEnemyWidth(), gv.getYellowPaint());
+			default:
+				color = gv.getYellowPaint().getColor();
 				break;
 			}
+			GradientSquare.draw(canvas, gv.getXs(i), gv.getYs(i),
+					gv.getXs(i) + gv.getEnemyWidth(),
+					gv.getYs(i) + gv.getEnemyWidth(), color);
 		}
 	}
 

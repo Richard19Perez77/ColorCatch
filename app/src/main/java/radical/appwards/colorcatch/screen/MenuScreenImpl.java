@@ -125,68 +125,6 @@ class MenuScreenImpl implements Screen {
         if (menuVarsLoaded && !loadingThread.isAlive()) {
             canvas.drawCircle(x, y, endR, circlePaint);
 
-            for (int i = 0; i < squares - 1; i++) {
-                if (squareList[i].movePoints == null
-                        || squareList[i].movePoints.length == 0)
-                    continue;
-                int nextPoint = squareList[i].nextPoint();
-                int offset = squareList[i].offset;
-                switch (squareList[i].side) {
-                    case 0:
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
-                                squareList[i].movePoints[nextPoint].y + offset,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + slen,
-                                blackPaint);
-
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
-                                squareList[i].movePoints[nextPoint].y + 4 + offset,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + 4 + slen,
-                                greenPaint);
-                        break;
-                    case 1:
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
-                                squareList[i].movePoints[nextPoint].y,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + slen,
-                                blackPaint);
-
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
-                                squareList[i].movePoints[nextPoint].y + 4,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + 4 + slen,
-                                greenPaint);
-                        break;
-                    case 2:
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
-                                squareList[i].movePoints[nextPoint].y + offset,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + slen,
-                                blackPaint);
-
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
-                                squareList[i].movePoints[nextPoint].y + 4 + offset,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + 4 + slen,
-                                greenPaint);
-                        break;
-                    case 3:
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
-                                squareList[i].movePoints[nextPoint].y,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + slen,
-                                blackPaint);
-
-                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
-                                squareList[i].movePoints[nextPoint].y + 4,
-                                squareList[i].movePoints[nextPoint].x + slen,
-                                squareList[i].movePoints[nextPoint].y + 4 + slen,
-                                greenPaint);
-                        break;
-                }
-            }
-
             canvas.drawText(radical, w / 2, h / 10, gv.blackPaint);
             canvas.drawText(radical, w / 2, h / 10 + 3, gv.randPaint);
 
@@ -228,14 +166,7 @@ class MenuScreenImpl implements Screen {
 
             if (doUpdateSquares) {
                 doUpdateSquares = false;
-                for (int i = 0; i < squares - 1; i++) {
-                    squareList[i].updateNewStart(downX, downY);
-                }
                 titleBurst.setTarget(downX, downY);
-            }
-
-            for (int i = 0; i < squares - 1; i++) {
-                squareList[i].update();
             }
 
             titleBurst.update();

@@ -20,6 +20,7 @@ import radical.appwards.colorcatch.background.GameScreenBackground;
 import radical.appwards.colorcatch.level.Level;
 import radical.appwards.colorcatch.level.LevelFactory;
 import radical.appwards.colorcatch.logic.GameLogic;
+import radical.appwards.colorcatch.objects.GradientSquare;
 import radical.appwards.colorcatch.variables.GameVariables;
 
 /**
@@ -188,11 +189,8 @@ public class GameScreenImpl implements Screen {
      */
     @Override
     public void updatePhysics(Context context) {
-        //check for new color to radical.appwards.colorcatch.background shapes
-        if (gv.setNewMixedColorInt)
-            bg.updateColors(gv.mixedColorInt);
-
         gv.cyclePaint();
+        GradientSquare.advancePulse();
         if (gv.getCurrLevel() != 0)
             gv.gameTimer = gv.gameTimer + 1;
         bg.updatePhysics();
@@ -211,7 +209,6 @@ public class GameScreenImpl implements Screen {
                     gl.destroyAllEnemies();
                     level = lf.createLevel(context, gv.getCurrLevel());
                     gv.setEnemyCreation(false);
-                    bg.refresh();
                     if (gv.getCurrLevel() == GameVariables.LEVELS / 2)
                         Audio.getInstance().playTrack2(context);
                 }
