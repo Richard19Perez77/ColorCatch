@@ -48,6 +48,7 @@ class MenuScreenImpl implements Screen {
     private boolean doUpdateSquares;
     private float downX;
     private float downY;
+    private final MenuTitleBurst titleBurst = new MenuTitleBurst();
 
     MenuScreenImpl() {
         menuVarsLoaded = false;
@@ -124,14 +125,82 @@ class MenuScreenImpl implements Screen {
         if (menuVarsLoaded && !loadingThread.isAlive()) {
             canvas.drawCircle(x, y, endR, circlePaint);
 
+            for (int i = 0; i < squares - 1; i++) {
+                if (squareList[i].movePoints == null
+                        || squareList[i].movePoints.length == 0)
+                    continue;
+                int nextPoint = squareList[i].nextPoint();
+                int offset = squareList[i].offset;
+                switch (squareList[i].side) {
+                    case 0:
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
+                                squareList[i].movePoints[nextPoint].y + offset,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + slen,
+                                blackPaint);
+
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
+                                squareList[i].movePoints[nextPoint].y + 4 + offset,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + 4 + slen,
+                                greenPaint);
+                        break;
+                    case 1:
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
+                                squareList[i].movePoints[nextPoint].y,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + slen,
+                                blackPaint);
+
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
+                                squareList[i].movePoints[nextPoint].y + 4,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + 4 + slen,
+                                greenPaint);
+                        break;
+                    case 2:
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
+                                squareList[i].movePoints[nextPoint].y + offset,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + slen,
+                                blackPaint);
+
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x,
+                                squareList[i].movePoints[nextPoint].y + 4 + offset,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + 4 + slen,
+                                greenPaint);
+                        break;
+                    case 3:
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
+                                squareList[i].movePoints[nextPoint].y,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + slen,
+                                blackPaint);
+
+                        canvas.drawRect(squareList[i].movePoints[nextPoint].x + offset,
+                                squareList[i].movePoints[nextPoint].y + 4,
+                                squareList[i].movePoints[nextPoint].x + slen,
+                                squareList[i].movePoints[nextPoint].y + 4 + slen,
+                                greenPaint);
+                        break;
+                }
+            }
+
             canvas.drawText(radical, w / 2, h / 10, gv.blackPaint);
             canvas.drawText(radical, w / 2, h / 10 + 3, gv.randPaint);
 
             canvas.drawText(music, w / 2, h - h / 10, gv.blackPaint);
             canvas.drawText(music, w / 2, h - h / 10 - 3, gv.randPaint);
 
-            canvas.drawText("Color", w / 2, h / 3, gv.getYellowBoldPaint());
-            canvas.drawText("Catch", w / 2, h - h / 4, gv.getYellowBoldPaint());
+            canvas.drawText("Color", w / 2, h / 3, gv.getBlackBoldPaint());
+            canvas.drawText("Color", w / 2, h / 3 + 5, gv.getYellowBoldPaint());
+
+            canvas.drawText("Catch", w / 2, h - h / 4, gv.getBlackBoldPaint());
+            canvas.drawText("Catch", w / 2, h - h / 4 - 5,
+                    gv.getYellowBoldPaint());
+
+            titleBurst.draw(canvas, w, h, gv.getBlackBoldPaint(), gv.getYellowBoldPaint());
         }
     }
 
@@ -157,6 +226,19 @@ class MenuScreenImpl implements Screen {
                 radialG.setLocalMatrix(shaderMatrix);
             }
 
+            if (doUpdateSquares) {
+                doUpdateSquares = false;
+                for (int i = 0; i < squares - 1; i++) {
+                    squareList[i].updateNewStart(downX, downY);
+                }
+                titleBurst.setTarget(downX, downY);
+            }
+
+            for (int i = 0; i < squares - 1; i++) {
+                squareList[i].update();
+            }
+
+            titleBurst.update();
         }
     }
 
