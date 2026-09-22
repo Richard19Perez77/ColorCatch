@@ -48,7 +48,6 @@ class MenuScreenImpl implements Screen {
     private boolean doUpdateSquares;
     private float downX;
     private float downY;
-    private final MenuTitleBurst titleBurst = new MenuTitleBurst();
 
     MenuScreenImpl() {
         menuVarsLoaded = false;
@@ -131,14 +130,8 @@ class MenuScreenImpl implements Screen {
             canvas.drawText(music, w / 2, h - h / 10, gv.blackPaint);
             canvas.drawText(music, w / 2, h - h / 10 - 3, gv.randPaint);
 
-            canvas.drawText("Color", w / 2, h / 3, gv.getBlackBoldPaint());
-            canvas.drawText("Color", w / 2, h / 3 + 5, gv.getYellowBoldPaint());
-
-            canvas.drawText("Catch", w / 2, h - h / 4, gv.getBlackBoldPaint());
-            canvas.drawText("Catch", w / 2, h - h / 4 - 5,
-                    gv.getYellowBoldPaint());
-
-            titleBurst.draw(canvas, w, h, gv.getBlackBoldPaint(), gv.getYellowBoldPaint());
+            canvas.drawText("Color", w / 2, h / 3, gv.getYellowBoldPaint());
+            canvas.drawText("Catch", w / 2, h - h / 4, gv.getYellowBoldPaint());
         }
     }
 
@@ -164,12 +157,6 @@ class MenuScreenImpl implements Screen {
                 radialG.setLocalMatrix(shaderMatrix);
             }
 
-            if (doUpdateSquares) {
-                doUpdateSquares = false;
-                titleBurst.setTarget(downX, downY);
-            }
-
-            titleBurst.update();
         }
     }
 
