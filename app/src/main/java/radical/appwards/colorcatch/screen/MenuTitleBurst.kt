@@ -1,28 +1,36 @@
 package radical.appwards.colorcatch.screen
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.os.SystemClock
+import kotlin.math.abs
+import kotlin.math.exp
 
 /**
- * Extra Color banners right and extra Catch banners left. A second pair
- * does the same path at double speed. Original titles stay in MenuScreenImpl.
+ * One extra Color banner travels right and wraps. It keeps speeding up and
+ * fading until it is nearly invisible, then reappears and starts again.
+ * The centered Color and Catch titles stay put in MenuScreenImpl.
  */
 class MenuTitleBurst {
 
+    private companion object {
+        const val START_SPEED = 1.48f
+        const val INVISIBLE_SPEED = 48f
+        const val ACCEL_PER_SEC = 1.1f
+    }
+
     private val wordFill = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val wordOutline = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private var lastMs = 0L
     private var screenW = 0
     private var colorX = Float.NaN
-    private var catchX = Float.NaN
-    private var colorFastX = Float.NaN
-    private var catchFastX = Float.NaN
     private var colorWidth = 0f
-    private var catchWidth = 0f
+    private var speedFactor = START_SPEED
 
     fun setTarget(x: Float, y: Float) {
-        // Touch still retargets the background squares; banners keep their path.
+        // Touch still retargets the background squares; the banner keeps its path.
     }
 
     fun update() {
@@ -35,26 +43,19 @@ class MenuTitleBurst {
         lastMs = now
         if (screenW <= 0) return
 
-        val speed = screenW * 0.74f
-        val fast = speed * 2f
-        colorX += speed * dt
-        catchX -= speed * dt
-        colorFastX += fast * dt
-        catchFastX -= fast * dt
-
-        val colorLimit = screenW + colorWidth
-        val catchLimit = screenW + catchWidth
-        if (colorX > colorLimit) {
+        speedFactor *= exp(ACCEL_PER_SEC * dt)
+        if (speedFactor >= INVISIBLE_SPEED) {
+            speedFactor = START_SPEED
             colorX = -colorWidth
         }
-        if (catchX < -catchWidth) {
-            catchX = catchLimit
-        }
-        if (colorFastX > colorLimit) {
-            colorFastX = -colorWidth
-        }
-        if (catchFastX < -catchWidth) {
-            catchFastX = catchLimit
+
+        colorX += screenW * speedFactor * dt
+
+        val span = screenW + colorWidth
+        if (span > 0f) {
+            while (colorX > screenW) {
+                colorX -= span
+            }
         }
     }
 
@@ -62,24 +63,24 @@ class MenuTitleBurst {
         if (width <= 0 || height <= 0) return
         screenW = width
         colorWidth = fill.measureText("Color")
-        catchWidth = fill.measureText("Catch")
 
         if (colorX.isNaN()) {
             colorX = width / 2f
-            colorFastX = width / 2f
-        }
-        if (catchX.isNaN()) {
-            catchX = width / 2f
-            catchFastX = width / 2f
         }
 
-        val colorY = height / 3f
-        val catchY = height - height / 4f
+        val fade = (START_SPEED / speedFactor).coerceIn(0.03f, 1f)
+        val away = colorAwayFromTitle(colorX, width / 2f, colorWidth, width / 2f)
+        drawBanner(canvas, "Color", colorX, height / 3f, outline, fill, fade, away)
+    }
 
-        drawBanner(canvas, "Color", colorX, colorY, outline, fill)
-        drawBanner(canvas, "Color", colorFastX, colorY, outline, fill)
-        drawBanner(canvas, "Catch", catchX, catchY, outline, fill)
-        drawBanner(canvas, "Catch", catchFastX, catchY, outline, fill)
+    /**
+     * 0 while the moving word still overlaps the centered title, then a smooth
+     * 0–1 ramp out to [fullRedAt] so yellow eases into red as it leaves.
+     */
+    private fun colorAwayFromTitle(x: Float, titleX: Float, overlap: Float, fullRedAt: Float): Float {
+        val gap = (fullRedAt - overlap).coerceAtLeast(1f)
+        val t = ((abs(x - titleX) - overlap) / gap).coerceIn(0f, 1f)
+        return t * t * (3f - 2f * t)
     }
 
     private fun drawBanner(
@@ -88,10 +89,21 @@ class MenuTitleBurst {
         x: Float,
         y: Float,
         outline: Paint,
-        fill: Paint
+        fill: Paint,
+        fade: Float,
+        redAmount: Float
     ) {
+        wordOutline.set(outline)
         wordFill.set(fill)
-        canvas.drawText(word, x, y, outline)
+        wordOutline.alpha = (outline.alpha * fade).toInt().coerceIn(0, 255)
+        wordFill.color = blendYellowToRed(redAmount)
+        wordFill.alpha = (fill.alpha * fade).toInt().coerceIn(0, 255)
+        canvas.drawText(word, x, y, wordOutline)
         canvas.drawText(word, x, y + 5f, wordFill)
+    }
+
+    private fun blendYellowToRed(amount: Float): Int {
+        val green = (255f * (1f - amount.coerceIn(0f, 1f))).toInt()
+        return Color.rgb(255, green, 0)
     }
 }
