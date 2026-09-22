@@ -8,10 +8,10 @@ import kotlin.math.abs
 import kotlin.math.exp
 
 /**
- * One extra Color banner travels right and wraps. It keeps speeding up and
- * fading until it is nearly invisible, then reappears and starts again.
- * A dim shadow sits behind it and shows where the word is as the bright
- * text fades. The centered Color and Catch titles stay put in MenuScreenImpl.
+ * One extra Color banner travels right and another travels down. Both wrap,
+ * speed up, and fade until nearly invisible, then start again. A dim shadow
+ * sits behind each and shows where the word is as the bright text fades.
+ * The centered Color and Catch titles stay put in MenuScreenImpl.
  */
 class MenuTitleBurst {
 
@@ -27,8 +27,11 @@ class MenuTitleBurst {
 
     private var lastMs = 0L
     private var screenW = 0
+    private var screenH = 0
     private var colorX = Float.NaN
+    private var colorY = Float.NaN
     private var colorWidth = 0f
+    private var colorHeight = 0f
     private var speedFactor = START_SPEED
 
     fun setTarget(x: Float, y: Float) {
@@ -43,15 +46,17 @@ class MenuTitleBurst {
         }
         val dt = ((now - lastMs).coerceAtMost(50L)) / 1000f
         lastMs = now
-        if (screenW <= 0) return
+        if (screenW <= 0 || screenH <= 0) return
 
         speedFactor *= exp(ACCEL_PER_SEC * dt)
         if (speedFactor >= INVISIBLE_SPEED) {
             speedFactor = START_SPEED
             colorX = -colorWidth
+            colorY = -colorHeight
         }
 
         colorX += screenW * speedFactor * dt
+        colorY += screenH * speedFactor * dt
 
         val span = screenW + colorWidth
         if (span > 0f) {
@@ -59,20 +64,34 @@ class MenuTitleBurst {
                 colorX -= span
             }
         }
+        val verticalSpan = screenH + colorHeight
+        if (verticalSpan > 0f) {
+            while (colorY > screenH) {
+                colorY -= verticalSpan
+            }
+        }
     }
 
     fun draw(canvas: Canvas, width: Int, height: Int, outline: Paint, fill: Paint) {
         if (width <= 0 || height <= 0) return
         screenW = width
+        screenH = height
         colorWidth = fill.measureText("Color")
+        colorHeight = fill.textSize
 
         if (colorX.isNaN()) {
             colorX = width / 2f
         }
+        if (colorY.isNaN()) {
+            colorY = height / 3f
+        }
 
         val fade = (START_SPEED / speedFactor).coerceIn(0.03f, 1f)
-        val away = colorAwayFromTitle(colorX, width / 2f, colorWidth, width / 2f)
-        drawBanner(canvas, "Color", colorX, height / 3f, outline, fill, fade, away)
+        val titleY = height / 3f
+        val awayAcross = colorAwayFromTitle(colorX, width / 2f, colorWidth, width / 2f)
+        val awayDown = colorAwayFromTitle(colorY, titleY, colorHeight, height / 2f)
+        drawBanner(canvas, "Color", colorX, titleY, outline, fill, fade, awayAcross)
+        drawBanner(canvas, "Color", width / 2f, colorY, outline, fill, fade, awayDown)
     }
 
     /**
