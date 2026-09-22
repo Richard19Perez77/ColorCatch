@@ -35,13 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:background="@color/Gold"
+                android:background="@drawable/btn_start"
+                android:letterSpacing="0.14"
                 android:onClick="startGame"
-                android:paddingBottom="10dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:paddingTop="10dp"
                 android:text="@string/begin"
+                android:textColor="@color/Gold"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:visibility="invisible" />
 
         </RelativeLayout>
